@@ -1,0 +1,48 @@
+Usage and help statment for Books CLI
+CS257 
+Martin Bernard and Antonia Ritter
+Jan 11 2021 
+
+Arguments (order is irrelevant): 
+	-a, -author: search authors (case insensitive)
+	-t, -title: search titles (case insensitive) 
+	-y, -year: search year published (inclusive)
+	-h, -help, no argument: prints this page 
+	
+Examples: 
+	python3 books.py -a “Mary”
+		Mary Shelley
+			Frankenstein, 1818
+		Mary Higgins Clark
+			A Stranger is Watching, 1977
+			The Cinderella Murder, 2014
+
+	python3 books.py -t “the”
+		Agatha Christie
+			Murder on the Orient Express, 1934
+			Death on the Nile, 1937
+		L. Frank Baum
+			The Wonderful Wizard of OZ, 1900 
+		
+	python3 books.py -a “Agatha” -t “the” 
+	(or python3 books.py -t “the” -a “Agatha”) 
+		Agatha Christie
+			Murder on the Orient Express, 1934
+			Death on the Nile, 1937
+		
+	python3 books.py -y 1800-1900
+		Mary Shelley
+			Frankenstein, 1818
+		L. Frank Baum
+			The Wonderful Wizard of OZ, 1900 
+			
+	python3 books.py
+	(or python3 books.py -help)
+		prints this page 
+
+
+
+
+
+
+
