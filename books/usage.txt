@@ -10,7 +10,7 @@ Arguments (order is irrelevant):
 	-h, -help, no argument: prints this page 
 	
 Examples: 
-	python3 books.py -a “Mary”
+	python3 books.py -author “Mary”
 		Mary Shelley
 			Frankenstein, 1818
 		Mary Higgins Clark
