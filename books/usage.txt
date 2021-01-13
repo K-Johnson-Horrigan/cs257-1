@@ -39,10 +39,3 @@ Examples:
 	python3 books.py
 	(or python3 books.py -help)
 		prints this page 
-
-
-
-
-
-
-
