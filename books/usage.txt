@@ -1,27 +1,21 @@
+
 Usage and help statment for Books CLI
 CS257 
 Martin Bernard and Antonia Ritter
 Jan 11 2021 
 
 Arguments (order is irrelevant): 
-	-a, --author: Search authors, in quotes if multiple words. (case insensitive)
-	-t, --title: Search titles, in quotes if multiple words. (case insensitive) 
-	-y, --year: Search year published. Two full years separated by hyphen or a single year.(inclusive)
-	-h, --help: Prints usage help statments
-	no arguments: Prints this page  
+	-a, --author: Search authors, in quotes if multiple words (case insensitive)
+	-t, --title: Search titles, in quotes if multiple words (case insensitive) 
+	-y, --year: Search year published, as a range of two full years separated by a hyphen (inclusive) or as a single year
+	-h, --help: Prints help statments
+	no arguments or unexpected syntax: Prints this page  
 	
 Examples: 
-	python3 books.py --author Mary
+
+	python3 books.py --author "mary s"
 		Mary Shelley
 			Frankenstein, 1818
-		Mary Higgins Clark
-			A Stranger is Watching, 1977
-			The Cinderella Murder, 2014
-
-	python3 books.py -a "James Baldwin"
-		James Baldwin
-			The Fire Next Time, 1963
-			If Beale Street Could Talk, 1974
 
 	python3 books.py -t the
 		Agatha Christie
@@ -30,17 +24,17 @@ Examples:
 		L. Frank Baum
 			The Wonderful Wizard of OZ, 1900 
 		
-	python3 books.py -a Agatha -t the 
-	(or python3 books.py -t “the” -a “Agatha”) 
+	python3 books.py -a Agatha -t the -y 1930-1940
+	(or python3 books.py -t the -a Agatha -y 1930-1940) 
+	(or any other ordering)
 		Agatha Christie
 			Murder on the Orient Express, 1934
 			Death on the Nile, 1937
 		
-	python3 books.py -y 1800-1900
+	python3 books.py -y 1818
 		Mary Shelley
 			Frankenstein, 1818
-		L. Frank Baum
-			The Wonderful Wizard of OZ, 1900 
 			
 	python3 books.py
-		prints this page 
+	(or python3 books.py [any unexpected syntax])
+		Prints this page 
