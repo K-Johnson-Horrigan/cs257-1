@@ -4,27 +4,33 @@ Martin Bernard and Antonia Ritter
 Jan 11 2021 
 
 Arguments (order is irrelevant): 
-	-a, -author: search authors (case insensitive)
-	-t, -title: search titles (case insensitive) 
-	-y, -year: search year published (inclusive)
-	-h, -help, no argument: prints this page 
+	-a, --author: Search authors, in quotes if multiple words. (case insensitive)
+	-t, --title: Search titles, in quotes if multiple words. (case insensitive) 
+	-y, --year: Search year published. Two full years separated by hyphen or a single year.(inclusive)
+	-h, --help: Prints usage help statments
+	no arguments: Prints this page  
 	
 Examples: 
-	python3 books.py -author “Mary”
+	python3 books.py --author Mary
 		Mary Shelley
 			Frankenstein, 1818
 		Mary Higgins Clark
 			A Stranger is Watching, 1977
 			The Cinderella Murder, 2014
 
-	python3 books.py -t “the”
+	python3 books.py -a "James Baldwin"
+		James Baldwin
+			The Fire Next Time, 1963
+			If Beale Street Could Talk, 1974
+
+	python3 books.py -t the
 		Agatha Christie
 			Murder on the Orient Express, 1934
 			Death on the Nile, 1937
 		L. Frank Baum
 			The Wonderful Wizard of OZ, 1900 
 		
-	python3 books.py -a “Agatha” -t “the” 
+	python3 books.py -a Agatha -t the 
 	(or python3 books.py -t “the” -a “Agatha”) 
 		Agatha Christie
 			Murder on the Orient Express, 1934
@@ -37,5 +43,4 @@ Examples:
 			The Wonderful Wizard of OZ, 1900 
 			
 	python3 books.py
-	(or python3 books.py -help)
 		prints this page 
