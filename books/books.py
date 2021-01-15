@@ -16,10 +16,8 @@ filename = 'books.csv'
 bookList = []
 
 # opening the CSV file 
-with open(filename, mode ='r') as file:     
-       # reading the CSV file 
+with open(filename, mode ='r') as file: 
        csvFile = csv.reader(file) 
-       # displaying the contents of the CSV file 
        for line in csvFile: 
             bookList.append(line)
         
@@ -36,6 +34,7 @@ def parseArguments():
 
 
 """
+    Helper for findMatches 
     Input: A range or single year (arguments.year) and a publication year 
     Output: True or False depending on whether the range contains the year 
 """
@@ -58,58 +57,47 @@ def yearMatch(searchY, year):
     Input: List of arguments (the output from parseArgument())
     Output: Default dictionary of books matching the arguments
 """
-def multi_arguments(arguments):
+def findMatches(arguments):
+
     # key is author name, value is set of author's books 
     # {author : (title, title, ..), author: (title), ...}
-    resultsDict = defaultdict(set)
+    reDict = defaultdict(list)
 
-    authorBool = False
-    titleBool = False
-    yearBool = False
-
-    if arguments.author != None:
-        authorBool = True
-    if arguments.title != None:
-        titleBool = True
-    if arguments.year != None:
-        yearBool = True
-
-    #For each book check to see if it matches the arguments and add it to the dictionary if it matches
     for book in bookList:
 
-        #Add books only if it matches the author, title, and if in range of publication year
-        if (authorBool and titleBool and yearBool and (re.search(arguments.author, book[2], re.IGNORECASE)) 
-            and (re.search(arguments.title, book[0], re.IGNORECASE)) and yearMatch(arguments.year, book[1])):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
+        # author 
+        if arguments.author != None: # author is specified 
+            if (re.search(arguments.author, book[2], re.IGNORECASE)): # there is a match
+                author = True
+            else: # there is no match 
+                author = False 
+        else: # no author specified 
+            author = True 
 
-        #Author and title 
-        elif (authorBool and titleBool and not yearBool and (re.search(arguments.author, book[2], re.IGNORECASE)) 
-            and (re.search(arguments.title, book[0], re.IGNORECASE))):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
+        # title 
+        if arguments.title != None:
+            if (re.search(arguments.title, book[0], re.IGNORECASE)):
+                title = True
+            else:
+                title = False 
+        else: 
+            title = True 
 
-        #Author and year
-        elif (authorBool and yearBool and not titleBool and (re.search(arguments.author, book[2], re.IGNORECASE)) 
-            and yearMatch(arguments.year, book[1])):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
+        # year 
+        if (arguments.year != None):
+            if yearMatch(arguments.year, book[1]):
+                year = True
+            else:
+                year = False 
+        else:
+            year = True  
 
-        #Title and year
-        elif (titleBool and yearBool and not authorBool and (re.search(arguments.title, book[0], re.IGNORECASE)) 
-            and yearMatch(arguments.year, book[1])):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
-
-        #Author 
-        elif (authorBool and not titleBool and not yearBool and (re.search(arguments.author, book[2], re.IGNORECASE))):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
-
-        #Title 
-        elif (titleBool and not authorBool and not yearBool and (re.search(arguments.title, book[0], re.IGNORECASE))):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
-
-        #Year
-        elif (yearBool and not authorBool and not titleBool and yearMatch(arguments.year, book[1])):
-            resultsDict[book[2]].add(book[0] + ", " + book[1])
+        # if the author, title, and year all match (or don't exist)
+        if author and title and year: 
+            # add book to reDict 
+            reDict[book[2]].append(book[0] + ", " + book[1])
     
-    return resultsDict
+    return reDict
 
 
 """
@@ -118,19 +106,18 @@ def multi_arguments(arguments):
     Prints books otherwise 
 """
 def printOutput(arguments, resultDict):
+    # if no arguments given
     if arguments.author == None and arguments.title == None and arguments.year == None:
         with open("usage.txt","r") as f:
             for line in f:
                 print(line.rstrip())
     else:
-        resultDict = multi_arguments(arguments)
-
         # print out results 
         resultAuthors = resultDict.keys()
         if len(resultAuthors) == 0:
             print("No results")
         else:
-            for key in resultDict.keys():
+            for key in sorted(resultDict.keys()):
                 print()
                 print(key)
                 for title in resultDict[key]:
@@ -139,6 +126,7 @@ def printOutput(arguments, resultDict):
 
 def main():
     arguments = parseArguments()
-    printOutput(arguments, multi_arguments(arguments))
+    matches = findMatches(arguments)
+    printOutput(arguments, matches)
 
 main()
