@@ -1,6 +1,7 @@
 # Books CLI
 # CS257 
 # Martin Bernard and Antonia Ritter
+# Revised by Martin Bernard and Antonia Ritter
 # Jan 15 2021 
 
 import re
