@@ -48,7 +48,7 @@ def add_athlete_ids(athlete_events):
     return athlete_events_updated
 
 
-def add_committee_ids(athlete_events):
+def add_committee_ids(athlete_events, noc_regions):
     """
     Add committee_id as a column to athlete_events. 
     """
@@ -56,15 +56,19 @@ def add_committee_ids(athlete_events):
     id_dict = defaultdict(int)
 
     id_counter = 0
-    for athlete in athlete_events:
-        noc = athlete[7] 
-        if not id_dict[noc]:
-            id_dict[noc] = id_counter
+    for noc in noc_regions:
+        noc_abrev = noc[0] 
+        if not id_dict[noc_abrev]:
+            id_dict[noc_abrev] = id_counter
             id_counter += 1
         
     athlete_events_updated = []
     for athlete in athlete_events:
-        row = athlete + [id_dict[athlete[7]]] 
+        if id_dict[athlete[7]]:
+            id = id_dict[athlete[7]]
+        else:
+            id = "NULL"
+        row = athlete + [id]
         athlete_events_updated.append(row) 
 
     return athlete_events_updated
@@ -143,12 +147,12 @@ def add_athlete_competition_ids(athlete_events):
     return athlete_events_updated
 
 
-def add_all_ids(athlete_events):
+def add_all_ids(athlete_events, noc_regions):
     """
     Calls all the functions to add ids as a column to athlete_events
     """
     athlete_events = add_athlete_ids(athlete_events)
-    athlete_events = add_committee_ids(athlete_events)
+    athlete_events = add_committee_ids(athlete_events, noc_regions)
     athlete_events = add_competition_ids(athlete_events)
     athlete_events = add_event_ids(athlete_events)
     athlete_events = add_athlete_competition_ids(athlete_events)
@@ -181,17 +185,21 @@ def create_committee_csv(athlete_events, noc_regions):
     """
 	Creates the file committee.csv matching table committee
 	"""
-    # Key is committee abbreviation, value is committee_id
-    noc_id_dict = defaultdict(int)
-    for athlete in athlete_events:
-        noc_id_dict[athlete[7]] = athlete[18]
+    id_dict = defaultdict(int)
+
+    id_counter = 0
+    for noc in noc_regions:
+        noc_abrev = noc[0] 
+        if not id_dict[noc_abrev]:
+            id_dict[noc_abrev] = id_counter
+            id_counter += 1
 
     noc_dict = defaultdict(list) 
     for noc in noc_regions:
         # Noc fields:
         # [noc, region, notes]
         abbreviation = noc[0]
-        committee_id = noc_id_dict[abbreviation]
+        committee_id = id_dict[abbreviation]
         region = noc[1]
         notes = noc[2] 
         noc_dict[committee_id] = [committee_id, region, abbreviation, notes]
@@ -286,7 +294,7 @@ def create_athlete_competition_event_csv(athlete_events):
 
 def main():
     athlete_events, noc_regions = read_csvs() 
-    athlete_events = add_all_ids(athlete_events)
+    athlete_events = add_all_ids(athlete_events, noc_regions)
 
     create_athlete_csv(athlete_events)
     create_committee_csv(athlete_events, noc_regions)
