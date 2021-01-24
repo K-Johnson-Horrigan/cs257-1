@@ -3,7 +3,7 @@ CREATE TABLE athlete (
     athlete_name text,
     age integer,
     height integer,
-    weight integer, 
+    weight decimal, 
     sex text
 ); 
 
@@ -18,7 +18,7 @@ CREATE TABLE competition (
     competition_id SERIAL,
     year integer,
     season text,
-    city text
+    city text,
     competition_name text
 );
 

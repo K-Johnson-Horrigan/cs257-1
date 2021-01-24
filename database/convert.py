@@ -166,9 +166,9 @@ def create_athlete_csv(athlete_events):
         athlete_id = athlete[15] 
         name = athlete[1] 
         sex = athlete[2]
-        age = athlete[3]
-        height = athlete[4]
-        weight = athlete[5] 
+        age = athlete[3] if athlete[3] != "NA" else "NULL"
+        height = athlete[4] if athlete[4] != "NA" else "NULL"
+        weight = athlete[5] if athlete[5] != "NA" else "NULL"
         athlete_dict[athlete_id] = [athlete_id, name, age, height, weight, sex]
 
     with open("csvs/athlete.csv", "w") as csvfile: 
@@ -247,7 +247,8 @@ def create_athlete_competition_csv(athlete_events):
 	Creates the file athlete_competition.csv matching table athlete_competition 
 	"""
     # key is athlete_competition_id 
-    # value is [athlete_competition_id, athlete_id, committee_id, competition_id]
+    # value is [athlete_competition_id, athlete_id, competition_id, committee_id]
+    #["ID","Name","Sex","Age","Height","Weight","Team","NOC","Games","Year","Season","City","Sport","Event","Medal", athlete_id, committee_id, competition_id, event_id, athlete_competition_id]
     athlete_comp_dict = defaultdict(list) 
 
     for athlete in athlete_events:
@@ -255,7 +256,7 @@ def create_athlete_competition_csv(athlete_events):
         committee_id = athlete[16]
         competition_id = athlete[17]
         athlete_competition_id = athlete[19]
-        athlete_comp_dict[athlete_competition_id] = [athlete_competition_id, athlete_id, committee_id, competition_id] 
+        athlete_comp_dict[athlete_competition_id] = [athlete_competition_id, athlete_id, competition_id, committee_id] 
         
     with open("csvs/athlete_competition.csv", "w") as csvfile: 
         csvWriter = csv.writer(csvfile)
@@ -274,7 +275,7 @@ def create_athlete_competition_event_csv(athlete_events):
     for athlete in athlete_events:
         athlete_competition_id = athlete[19]
         event_id = athlete[18]
-        medal = athlete[14] 
+        medal = athlete[14] if athlete[14] != "NA" else "NULL"
         ace_dict[(athlete_competition_id, event_id)] = [athlete_competition_id, event_id, medal] 
 
     with open("csvs/athlete_competition_event.csv", "w") as csvfile: 
