@@ -16,10 +16,10 @@ CREATE TABLE committee (
 
 CREATE TABLE competition (
     competition_id SERIAL,
-    competition_name text,
-    season text,
     year integer,
+    season text,
     city text
+    competition_name text
 );
 
 CREATE TABLE event (
