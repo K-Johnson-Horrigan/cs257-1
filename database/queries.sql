@@ -19,10 +19,10 @@ AND athlete_competition_event.medal IS NOT NULL
 AND athlete.athlete_name LIKE '%"Greg" Louganis'
 ORDER BY competition.competition_name;
 
-SELECT committee.region, COUNT(athlete_competition_event.medal)
+SELECT committee.abbreviation, COUNT(athlete_competition_event.medal)
 FROM committee, athlete_competition, athlete_competition_event
 WHERE committee.committee_id = athlete_competition.committee_id 
 AND athlete_competition.athlete_competition_id = athlete_competition_event.athlete_competition_id
 AND athlete_competition_event.medal = 'Gold'
-GROUP BY  committee.region
+GROUP BY committee.abbreviation
 ORDER BY COUNT(athlete_competition_event.medal) DESC;
