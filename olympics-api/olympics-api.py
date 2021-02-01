@@ -98,11 +98,10 @@ def get_medalists(games_id):
 
     if noc is not None:
         query_with_noc = 'AND committee.abbreviation = \'%s\' \
-                    ORDER BY athlete.athlete_name;' % noc.upper()
+                        ORDER BY athlete.athlete_name;' % noc.upper()
         query = query_base + query_with_noc
     else:
         query = query_base + query_without_noc
-        print(query)
 
     query_results = query_database(query)
     response = []
