@@ -42,7 +42,9 @@ def query_database(query):
 
 @app.route('/games')
 def get_games():
-    """Returns list of all olympics games in database."""
+    '''
+    Returns list of all olympics games in database.
+    '''
     query = 'SELECT competition.competition_id, competition.year, competition.season, competition.city \
             FROM competition \
             ORDER BY year;'
@@ -62,7 +64,9 @@ def get_games():
 
 @app.route('/nocs')
 def get_nocs():
-    """Returns a list of all national olympic committees in database."""
+    '''
+    Returns a list of all national olympic committees in database.
+    '''
     query = 'SELECT committee.abbreviation, committee.region \
             FROM committee \
             ORDER BY committee.abbreviation;'
@@ -79,8 +83,10 @@ def get_nocs():
 
 @app.route('/medalists/games/<games_id>')
 def get_medalists(games_id):
-    """Returns a list of medalists for specificed games,
-    and in a certain noc if given."""
+    '''
+    Returns a list of medalists for specified games,
+    and in a certain noc if given.
+    '''
 
     noc = flask.request.args.get('noc')
 
