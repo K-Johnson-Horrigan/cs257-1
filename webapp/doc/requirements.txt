@@ -26,6 +26,7 @@ Story:
 An indonesian agricultural executive can get a world map shaded with each country's agricultural yield across all crops in the year 2019 determining the strength of their shading, so he can check if their new technology made Indonesia the most agriculturally abundant country in 2019.
 
 Implementation:
+Same general implementation with 3 dropdown bars as #1. 
 For this user specifically, he clicks on the crops dropdown to see the options, and spots “all crops” at the top of the options, and selects it. He then leaves the countries dropdown set to “world” and the years dropdown set to “2019”. He clicks the display button. A world map appears, each country shaded with their agricultural yield across all crops in the year 2019 determining the strength of their shading.
 
 
@@ -34,6 +35,7 @@ Story:
 A user can get a world map with shading indicating total agricultural yield across all crops and all years, so they can figure out which countries historically have the largest yields.
 
 Implementation:
+Same general implementation with 3 dropdown bars as #1. 
 The user can select “all crops” from the crop dropdown, “world” from the country dropdown, and “all years” from the year dropdown, then click the display button. A world map with shading indicating total agricultural yield across all crops and all years is displayed.
 
 
@@ -42,6 +44,7 @@ Story:
 A user can get a numeric value for the fig yield in Finland in 2016, so they can determine if their jar of “2016 Finland Figs” is special.
 
 Implementation:
+Same general implementation with 3 dropdown bars as #1. 
 This user can select “figs” from the crop dropdown, “finland” from the country dropdown, and “2016” from the year dropdown, then click the display button. Unfortunately, this dataset has no data for this hyper-specific request! A tragic text is displayed, blaming the data collectors for the failure. (If the user had chosen 2018, a number--the yield--would have been displayed. Alas.)
 
 
@@ -50,6 +53,7 @@ Story:
 An American orange farmer can get a line graph on the yield of oranges in the US over time, so he can figure out if the industry is in decline/stagnant/growing.
 
 Implementation:
+Same general implementation with 3 dropdown bars as #1. 
 For this user specifically, they select “oranges” from the crop dropdown, “united states of america” from the country dropdown, and “all years from” from the year dropdown, then click the display button. A line graph appears of the yield of oranges in the US, with the y-axis describing yield (in tonnes) and the x-axis referring to time.
 
 
@@ -58,6 +62,7 @@ Story:
 A user can get a table on all the crops produced by Germany in 1992 sorted by yield, so they can determine what the dominant crops were at that time and place.
 
 Implementation:
+Same general implementation with 3 dropdown bars as #1. 
 For this user specifically, they select “all crops” from the crop dropdown, “germany” from the country dropdown, and “1992” from the year dropdown, then click the display button. A table appears, showing all the crops produced by Germany in 1992, sorted by the yield.
 
 
@@ -66,6 +71,7 @@ Story:
 A user can get a line graph about crop production over time in Belarus, so they can determine whether the dominant crop has changed.
 
 Implementation: 
+Same general implementation with 3 dropdown bars as #1. 
 For this user specifically, they select “all crops” from the crop dropdown, “belarus” from the country dropdown, and “all years” from the year dropdown, then click the display button. A line graph appears, with each line equating to one crop type, of crop production over time with the y-axis describing yield (in tonnes) and the x-axis referring to time. All the crops would probably make a messy graph, so we will need to figure out how to limit it - maybe to the top 10, or similar. 
 
 
