@@ -1,0 +1,78 @@
+Kai Johnson and Antonia Ritter
+
+Our dataset is the crops domain from the Food and Agriculture Organization of the United Nations (http://www.fao.org/faostat/en/#data/QC, select desired variables to download). It contains 3 measures of quantity produced for 174 crops by country, 1961-2019.  
+
+
+1.
+Story:
+An Iowan who grew up next to a soybean field can get a world map of world soybean production in 2019, so that she can stoke her American soybean farmer (adjacent) ego.
+
+Implementation: 
+One way to implement this would be to have three dropdown bars, for crops (eg “all crops”, “figs”, “maize”, etc.), countries (eg “world”, “france”, “afghanistan”, etc.), and years (eg “all years”, “1990”, “2019”, etc.), which would have presets to provide the user with an example or just let them click the “display” button without needing to enter their own parameters. (See wireframes.)
+For this user specifically, they would upon arrival to the web page click on the dropdown bar for crops, marvel at how many options there are, select “soybean”, and click the display button. Luckily, the year dropdown is pre-set to “2019” and the countries dropdown is preset to “world”, so the page loads. Voila! A world map is displayed, with each country shaded with strength indicating how much soybean yield they had in 2019. 
+
+
+2.
+Story:
+A maize businesswoman can get a world map with each country shaded according to how much maize they produced in the years 1961-2019, so that she can check how her country historically compares in terms of maize production.
+
+Implementation: 
+Same general implementation with 3 dropdown bars as #1. 
+For this user specifically, she selects “maize” from the dropdown menu of crops, leaves the countries dropdown as its preset “world”, and selects “all years” from the years dropdown. She clicks the display button. A world map appears, with each country shaded according to how much maize they produced in the years 1961-2019. 
+
+
+3.
+Story:
+An indonesian agricultural executive can get a world map shaded with each country's agricultural yield across all crops in the year 2019 determining the strength of their shading, so he can check if their new technology made Indonesia the most agriculturally abundant country in 2019.
+
+Implementation:
+For this user specifically, he clicks on the crops dropdown to see the options, and spots “all crops” at the top of the options, and selects it. He then leaves the countries dropdown set to “world” and the years dropdown set to “2019”. He clicks the display button. A world map appears, each country shaded with their agricultural yield across all crops in the year 2019 determining the strength of their shading.
+
+
+4.
+Story:
+A user can get a world map with shading indicating total agricultural yield across all crops and all years, so they can figure out which countries historically have the largest yields.
+
+Implementation:
+The user can select “all crops” from the crop dropdown, “world” from the country dropdown, and “all years” from the year dropdown, then click the display button. A world map with shading indicating total agricultural yield across all crops and all years is displayed.
+
+
+5.
+Story:
+A user can get a numeric value for the fig yield in Finland in 2016, so they can determine if their jar of “2016 Finland Figs” is special.
+
+Implementation:
+This user can select “figs” from the crop dropdown, “finland” from the country dropdown, and “2016” from the year dropdown, then click the display button. Unfortunately, this dataset has no data for this hyper-specific request! A tragic text is displayed, blaming the data collectors for the failure. (If the user had chosen 2018, a number--the yield--would have been displayed. Alas.)
+
+
+6.
+Story:
+An American orange farmer can get a line graph on the yield of oranges in the US over time, so he can figure out if the industry is in decline/stagnant/growing.
+
+Implementation:
+For this user specifically, they select “oranges” from the crop dropdown, “united states of america” from the country dropdown, and “all years from” from the year dropdown, then click the display button. A line graph appears of the yield of oranges in the US, with the y-axis describing yield (in tonnes) and the x-axis referring to time.
+
+
+7.
+Story:
+A user can get a table on all the crops produced by Germany in 1992 sorted by yield, so they can determine what the dominant crops were at that time and place.
+
+Implementation:
+For this user specifically, they select “all crops” from the crop dropdown, “germany” from the country dropdown, and “1992” from the year dropdown, then click the display button. A table appears, showing all the crops produced by Germany in 1992, sorted by the yield.
+
+
+8.
+Story:
+A user can get a line graph about crop production over time in Belarus, so they can determine whether the dominant crop has changed.
+
+Implementation: 
+For this user specifically, they select “all crops” from the crop dropdown, “belarus” from the country dropdown, and “all years” from the year dropdown, then click the display button. A line graph appears, with each line equating to one crop type, of crop production over time with the y-axis describing yield (in tonnes) and the x-axis referring to time. All the crops would probably make a messy graph, so we will need to figure out how to limit it - maybe to the top 10, or similar. 
+
+
+9.
+Story:
+A user can navigate to an info and help page with descriptions of the options available across different searches, so that they can streamline their searching capabilities.
+
+Implementation:
+To implement this, we thought we might add an html page that just contains text (and maybe images) describing what various search combinations look like. This page would probably be reachable from the landing page by means of a button in the top right corner, and the user could return to the search page by a button in the top left corner. 
+
