@@ -8,14 +8,9 @@ CREATE TABLE crops(
   crop text
 );
 
-CREATE TABLE years(
-  id int,
-  year int
-);
-
-CREATE TABLE country_crop_year(
+CREATE TABLE country_crop(
   country_id int,
   crop_id int,
-  year_id int,
+  year int,
   yield int
 );
