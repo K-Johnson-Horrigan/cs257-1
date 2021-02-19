@@ -1,0 +1,41 @@
+api-design.txt
+Kai Johnson and Antonia Ritter
+
+REQUEST: /menus
+RESPONSE: A JSON list containing a dictionary that will be used to populate our dropdown search bars, with keys as the dropdown name and values a sorted list of dropdown values. E.g. {countries: [Algeria, Bulgaria, …], crops: [maize, soybeans…], years: [1961, 1962, …]} 
+
+Note: “specific_something” is a placeholder (refers to China, 2016, etc) while “all_somethings” (all_countries, all_crops, all_years) will be actual endpoints representing that the “all” option for that category was selected. Please note that the numerical values for yields in the below examples are for example purposes and are not accurate. 
+
+REQUEST: /main?country=specific_country&crop=specific_crop&year=specific_year
+RESPONSE: A JSON list of a single int for the yield of a specific country, crop, and year. E.g. [100]
+
+REQUEST: /main?country=specific_country&crop=specific_crop&year=all_years
+RESPONSE: A JSON list of a single dictionary with keys as years and values as yields for a specific country and crop. E.g. {1961: 0, 1962: 178, ...}
+
+REQUEST: /main?country=specific_country&crop=all_crops&year=specific_year
+RESPONSE: A JSON list of a single dictionary with keys as crops and values as yields for a specific country in the specific year for each crop. E.g. {“maize”: 0, “soybeans”: 4040, ...}
+
+REQUEST: /main?country=specific_country&crop=all_crops&year=all_years
+RESPONSE: A JSON list of a single dictionary with keys as crops and values as dictionaries, each with years as keys and yields as values. E.g. {“maize”: {1961: 1000, 1962: 998, …}, “soybeans”: {1961: 0, 1962: 10, …}, …} 
+
+REQUEST: /main?country=all_countries&crop=specific_crop&year=specific_year
+RESPONSE: A JSON list of a single dictionary with keys as countries and values as yields of a specific crop in a specific year. E.g. {China: 5000, Mexico: 0, South Africa: 3, …} 
+
+REQUEST: /main?country=all_countries&crop=specific_crop&year=all_years
+RESPONSE: A JSON list of a single dictionary with keys as countries and values as yields summed over all the years. E.g. {China: 1000000, Mexico: 5000, South Africa: 9000, …} 
+
+REQUEST: /main?country=all_countries&crop=all_crops&year=specific_year
+RESPONSE: A JSON list of a single dictionary with keys as countries and values the total yield of all crops in that country that year. E.g. {China: 100000, Mexico: 5000, South Africa: 9000, …} 
+
+REQUEST: /main?country=all_countries&crop=all_crops&year=all_years
+RESPONSE: A JSON list of a single dictionary with keys as countries and values the total yield of all crops across all years in that country. E.g. {China: 100000000, Mexico: 50000000, South Africa: 90000, …} 
+
+REQUEST: /main?[anything else, or empty]
+RESPONSE: return null
+
+REQUEST: /[anything other than menus, main?(parameters)] 
+RESPONSE: return null
+
+REQUEST: /main
+RESPONSE: return null
+
