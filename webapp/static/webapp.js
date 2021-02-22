@@ -10,7 +10,7 @@ function loadMenus() {
             var elements = menus[0][dropdown];
             html += '<div><label for="' + dropdown + '_dopdown">'
                   + 'Choose from ' + dropdown + '</label>'
-                  + '<select name="' + dropdown + '_dopdown"> id="' + dropdown + '_dopdown">';
+                  + '<select id="' + dropdown + '_dropdown">';
 
             for(var j = 0; j < elements.length; j++){
                 html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
@@ -28,12 +28,16 @@ function loadMenus() {
 }
 
 function onDisplayButtonPress(){
+    var country = document.getElementById('countries_dropdown').value;
+    var crop = document.getElementById('crops_dropdown').value;
+    var year = document.getElementById('years_dropdown').value;
+    
     var url = getAPIBaseURL() + '/main/blah';
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(results) {
         var html = '';
-        html = '<p>yield: ' + results[0] + '</p>';
+        html = '<p>yield: ' + results[0] + '</p><p>' + country + ' ' + crop + ' ' + year + '</p>';
         var menuListElement = document.getElementById('display_results');
         if (menuListElement) {
             menuListElement.innerHTML = html;
