@@ -1,3 +1,5 @@
+//Authors: Antonia Ritter and Kai Johnson
+
 function loadMenus() {
     var url = getAPIBaseURL() + '/menus/';
     fetch(url, {method: 'get'})
