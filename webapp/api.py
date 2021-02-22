@@ -24,13 +24,6 @@ def get_menus():
 
 @api.route('/main/<country>')
 def get_results(country):
-    #country = flask.request.args.get('country', default='spain')
-    if country == 'All countries':
-        results = ["realllly lots"]
-        print('all countries~~~')
-
-    else: results = ["lots"]
-    results = [country]
     results = ["lots"]
     return json.dumps(results)
 
