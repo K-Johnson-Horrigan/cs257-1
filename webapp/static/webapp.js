@@ -89,7 +89,7 @@ function displayGraph(results){
   for(var key in results){
     html += '<p> crop: ' + key + '</p>'
     for(var subkey in results[key]){
-      html += '<p>' + key + ' : ' + results[key][subkey] + '</p>';
+      html += '<p>' + subkey + ' : ' + results[key][subkey] + '</p>';
     }
   }
   var menuListElement = document.getElementById('display_results');
