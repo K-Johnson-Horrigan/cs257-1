@@ -71,10 +71,6 @@ function display(displayType, url){
   });
 }
 
-function mapifyResults(results){
-  //{"US":19000, etc}
-  //{US: {}}
-}
 
 function displayMap(results){
   var html = '<p> display map of results:</p>';
