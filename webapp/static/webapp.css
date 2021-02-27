@@ -4,6 +4,10 @@ h3{
   color:blue;
 }
 
+main {
+  margin-top: 3rem;
+}
+
 #map-container {
     position: relative;
     float: left;
@@ -12,17 +16,19 @@ h3{
     padding-bottom: 60%;
 }
 
+
 #countries_dropdown {
-  width: 6cm;
+  width: 7cm;
 }
 
 #crops_dropdown {
-  width: 5cm;
+  width: 7cm;
 }
 
 #years_dropdown {
-  width: 2cm;
+  width: 2.5cm;
 }
+
 
 /* Use this selector to override the line style on a given series 
 .ct-series-a .ct-line {*/

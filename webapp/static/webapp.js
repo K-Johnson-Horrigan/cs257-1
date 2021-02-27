@@ -5,14 +5,14 @@ function loadMenus() {
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(menus) {
-        var html = '';
         var dropdowns = ['countries', 'crops', 'years'];
+        /*
+        var html = '';
         for (var i = 0; i < dropdowns.length; i++){
             var dropdown = dropdowns[i];
             var elements = menus[0][dropdown];
-            html += '<label for="' + dropdown + '_dropdown">'
-                  + ' Choose from ' + dropdown + ':   </label>'
-                  + '<select id="' + dropdown + '_dropdown">';
+            html += '<label for="' + dropdown + '_dropdown">' + ' Choose from ' + dropdown + ': </label>' +
+                  '<select id="' + dropdown + '_dropdown">';
             for(var j = 0; j < elements.length; j++){
                 html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
             }
@@ -22,6 +22,22 @@ function loadMenus() {
         if (menuListElement) {
             menuListElement.innerHTML = html;
         }
+        */
+       for (var i = 0; i < dropdowns.length; i++){
+          var dropdown = dropdowns[i];
+          var html = '';
+          var elements = menus[0][dropdown];
+          html += '<select id="' + dropdown + '_dropdown">';
+          for(var j = 0; j < elements.length; j++){
+            html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
+          }
+          html += '</select>';
+          var menuElement = document.getElementById(dropdown + '_col');
+          if (menuElement) {
+              menuElement.innerHTML = html;
+          }
+        }
+        
     })
     .catch(function(error) {
         console.log(error);
