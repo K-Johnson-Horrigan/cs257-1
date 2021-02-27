@@ -11,3 +11,27 @@ h3{
     width: 80%;
     padding-bottom: 60%;
 }
+
+#countries_dropdown {
+  width: 6cm;
+}
+
+#crops_dropdown {
+  width: 5cm;
+}
+
+#years_dropdown {
+  width: 2cm;
+}
+
+/* Use this selector to override the line style on a given series 
+.ct-series-a .ct-line {*/
+.thing1 .ct-line{
+  /* Set the colour of this series line */
+  stroke: blue;
+  /* Control the thickness of your lines */
+  stroke-width: 5px;
+  /* Create a dashed line with a pattern */
+  stroke-dasharray: 10px 20px;
+  label: 'hi'
+}

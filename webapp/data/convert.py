@@ -56,8 +56,6 @@ def make_country_crop_csv(original_data):
 # final csv = [country_id, crop_id, year, yield] 
 # original data = [area code, area, item code, item, element code, element, unit, Y1961, Y1962, ..., Y2019]
 
-    null_val = int(0)
-
     # get all crops
     crops_set = set()
     for row in original_data:
@@ -82,9 +80,9 @@ def make_country_crop_csv(original_data):
 
             if element == "Yield":
                 crop_yield = row[year_index]
-                if crop_yield != '':    # yield is not NULL
-                    crop_yield = int(crop_yield)
-                else: crop_yield = null_val # CHANGE ME
+                # if crop_yield != '':    # yield is not NULL
+                #     crop_yield = int(crop_yield)
+                # else: crop_yield = null_val # CHANGE ME
                 new_csv.append([int(country_code), int(crop_code), int(year), crop_yield])
 
     # get all the country/crop combos that aren't in the data
@@ -92,7 +90,7 @@ def make_country_crop_csv(original_data):
         missing_crops = (crops_set - countries_and_crops_dict[country_code])
         for crop_code in missing_crops:
             for year in range(1961, 2020):
-                new_csv.append([int(country_code), int(crop_code), year, null_val])
+                new_csv.append([int(country_code), int(crop_code), year, ''])
 
     with open("country_crop.csv", "w") as csvfile: 
         csvWriter = csv.writer(csvfile) 

@@ -7,16 +7,16 @@ function loadMenus() {
     .then(function(menus) {
         var html = '';
         var dropdowns = ['countries', 'crops', 'years'];
-        for (var i = 0; i < 3; i++){
+        for (var i = 0; i < dropdowns.length; i++){
             var dropdown = dropdowns[i];
             var elements = menus[0][dropdown];
-            html += '<div><label for="' + dropdown + '_dropdown">'
-                  + 'Choose from ' + dropdown + ':   </label>'
+            html += '<label for="' + dropdown + '_dropdown">'
+                  + ' Choose from ' + dropdown + ':   </label>'
                   + '<select id="' + dropdown + '_dropdown">';
             for(var j = 0; j < elements.length; j++){
                 html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
             }
-            html += '</select></div>';
+            html += '</select>';
         }
         var menuListElement = document.getElementById('menus_dropdowns');
         if (menuListElement) {
@@ -56,7 +56,6 @@ function getURL(displayType, country, crop, year){
 }
 
 function display(displayType, url){
-  //initializeMap()
 
   fetch(url, {method: 'get'})
   .then((response) => response.json())
@@ -96,6 +95,7 @@ function displayGraph(results){
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
+  initializeGraph()
 }
 
 function displayTable(results){
@@ -134,7 +134,7 @@ var extraCountryInfo = {USA: {yield: 100, fillColor: '#2222aa'}, CAN: {yield: 10
 var mapFills = {defaultFill: '#2222aa', CAN: '#2222aa'};
 
 function initializeMap() {
-    var map = new Datamap({ element: document.getElementById('map-container'), // where in the HTML to put the map
+    var map = new Datamap({ element: document.getElementById('display-container'), // where in the HTML to put the map
                             scope: 'world', // which map?
                             projection: 'equirectangular', // what map projection? 'mercator' is also an option
                             data: extraCountryInfo, // here's some data that will be used by the popup template
@@ -144,4 +144,15 @@ function initializeMap() {
                                 highlightOnHover: false, // You can disable the color change on hover
                                 }
                           });
+}
+
+function initializeGraph() {
+  var data = {
+    labels: [2016, 2017, 2018, 2019],
+    series: [
+      { className: 'thing1', data: [400, 400, 500, 300] },
+      { className: 'thing2', data: [600, 300, 400, 500] },
+    ]};
+  var options = {}
+  new Chartist.Line('#display-container', data, options);
 }

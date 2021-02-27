@@ -73,7 +73,7 @@ def convert_cursor_to_list(cursor):
 def get_menus_query(key):
     if key == 'countries': query = '''SELECT country FROM countries ORDER BY country'''
     elif key == 'crops': query = '''SELECT crop FROM crops ORDER BY crop'''
-    elif key == 'years': query = '''SELECT DISTINCT year FROM country_crop ORDER BY year'''
+    elif key == 'years': query = '''SELECT DISTINCT year FROM country_crop ORDER BY year DESC'''
     return [query]
 
 
