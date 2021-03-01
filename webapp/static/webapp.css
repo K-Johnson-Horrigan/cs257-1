@@ -5,7 +5,11 @@ h3{
 }
 
 main {
-  margin-top: 3rem;
+  margin-top: 2rem;
+}
+
+button {
+  color: green;
 }
 
 #map-container {
@@ -30,7 +34,8 @@ main {
 }
 
 
-/* Use this selector to override the line style on a given series 
+/* Chartist 
+Use this selector to override the line style on a given series 
 .ct-series-a .ct-line {*/
 .thing1 .ct-line{
   /* Set the colour of this series line */
