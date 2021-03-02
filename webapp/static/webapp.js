@@ -45,6 +45,8 @@ function loadMenus() {
 }
 
 function onDisplayButtonPress(){
+    wipeScreenClean();
+    
     var country = document.getElementById('countries_dropdown').value;
     var crop = document.getElementById('crops_dropdown').value;
     var year = document.getElementById('years_dropdown').value;
@@ -52,6 +54,13 @@ function onDisplayButtonPress(){
     var displayType = getDisplayType(country, crop, year);
     var url = getURL(displayType, country, crop, year);
     display(displayType, url);
+}
+
+function wipeScreenClean(){
+  document.getElementById('display-single').innerHTML = '';
+  document.getElementById('display-map').innerHTML = '';
+  document.getElementById('display-graph').innerHTML = '';
+  document.getElementById('display-table').innerHTML = '';
 }
 
 function getDisplayType(country, crop, year){
@@ -86,16 +95,7 @@ function display(displayType, url){
   });
 }
 
-
 function displayMap(results){
-  var html = '<p> display map of results:</p>';
-  for(var key in results){
-    html += '<p>' + key + ' : ' + results[key] + '</p>';
-  }
-  var menuListElement = document.getElementById('display_results');
-  if (menuListElement) {
-      menuListElement.innerHTML = html;
-  }
   initializeMap()
 }
 
@@ -107,7 +107,7 @@ function displayGraph(results){
       html += '<p>' + subkey + ' : ' + results[key][subkey] + '</p>';
     }
   }
-  var menuListElement = document.getElementById('display_results');
+  var menuListElement = document.getElementById('display-graph');
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
@@ -115,19 +115,26 @@ function displayGraph(results){
 }
 
 function displayTable(results){
-  var html = '<p> display table of results:</p>';
+  var html = '<thead><tr><th scope="col">crop</th><th scope="col">yield</th></tr></thead><tbody>';
   for(var key in results){
-    html += '<p>' + key + ' : ' + results[key] + '</p>';
+    html += '<tr><th scope="row">' + key + '</th><td>' + results[key] + '</td>';
   }
-  var menuListElement = document.getElementById('display_results');
+  html += '</tbody>';
+  var menuListElement = document.getElementById('display-table');
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
 }
 
 function displaySingle(results){
-  var html = '<p> display single of results: ' + results + '</p>';
-  var menuListElement = document.getElementById('display_results');
+  var html = '';
+  if (results > 0){
+    html = '<p> This hyper-specific request found: ' + results + '</p>';
+  }
+  else{
+    html = '<p>Looks like nothing was produced!</p>';
+  }
+  var menuListElement = document.getElementById('display-single');
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
@@ -150,7 +157,7 @@ var extraCountryInfo = {USA: {yield: 100, fillColor: '#2222aa'}, CAN: {yield: 10
 var mapFills = {defaultFill: '#2222aa', CAN: '#2222aa'};
 
 function initializeMap() {
-    var map = new Datamap({ element: document.getElementById('display-container'), // where in the HTML to put the map
+    var map = new Datamap({ element: document.getElementById('display-map'), // where in the HTML to put the map
                             scope: 'world', // which map?
                             projection: 'equirectangular', // what map projection? 'mercator' is also an option
                             data: extraCountryInfo, // here's some data that will be used by the popup template
@@ -170,5 +177,5 @@ function initializeGraph() {
       { className: 'thing2', data: [600, 300, 400, 500] },
     ]};
   var options = {}
-  new Chartist.Line('#display-container', data, options);
+  new Chartist.Line('#display-graph', data, options);
 }
