@@ -131,7 +131,7 @@ def get_table_query(country, year):
                     WHERE crops.id = country_crop.crop_id \
                     AND countries.id = country_crop.country_id \
                     AND countries.country = %s
-                    AND country_crop.year = %s;'''
+                    AND country_crop.year = %s ORDER BY country_crop.yield;'''
     search_clause = (country, year)
     return [query_text, search_clause]
 
