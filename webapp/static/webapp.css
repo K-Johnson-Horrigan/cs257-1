@@ -12,6 +12,10 @@ button {
   color: green;
 }
 
+th, td {
+  text-align: center;
+}
+
 #display-map {
     position: relative;
     float: left;
@@ -31,6 +35,10 @@ button {
 
 #years_dropdown {
   width: 2.5cm;
+}
+
+table {
+  width: 5cm;
 }
 
 

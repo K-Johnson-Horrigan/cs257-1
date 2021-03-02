@@ -1,48 +1,34 @@
 //Authors: Antonia Ritter and Kai Johnson
+//CS257 
+//Feb-March 2021
+
 
 function loadMenus() {
     var url = getAPIBaseURL() + '/menus/';
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(menus) {
-        var dropdowns = ['countries', 'crops', 'years'];
-        /*
+      var dropdowns = ['countries', 'crops', 'years'];
+      for (var i = 0; i < dropdowns.length; i++){
+        var dropdown = dropdowns[i];
         var html = '';
-        for (var i = 0; i < dropdowns.length; i++){
-            var dropdown = dropdowns[i];
-            var elements = menus[0][dropdown];
-            html += '<label for="' + dropdown + '_dropdown">' + ' Choose from ' + dropdown + ': </label>' +
-                  '<select id="' + dropdown + '_dropdown">';
-            for(var j = 0; j < elements.length; j++){
-                html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
-            }
-            html += '</select>';
+        var elements = menus[0][dropdown];
+        html += '<select id="' + dropdown + '_dropdown">';
+        for(var j = 0; j < elements.length; j++){
+          html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
         }
-        var menuListElement = document.getElementById('menus_dropdowns');
-        if (menuListElement) {
-            menuListElement.innerHTML = html;
+        html += '</select>';
+        var menuElement = document.getElementById(dropdown + '_col');
+        if (menuElement) {
+            menuElement.innerHTML = html;
         }
-        */
-       for (var i = 0; i < dropdowns.length; i++){
-          var dropdown = dropdowns[i];
-          var html = '';
-          var elements = menus[0][dropdown];
-          html += '<select id="' + dropdown + '_dropdown">';
-          for(var j = 0; j < elements.length; j++){
-            html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
-          }
-          html += '</select>';
-          var menuElement = document.getElementById(dropdown + '_col');
-          if (menuElement) {
-              menuElement.innerHTML = html;
-          }
-        }
-        
+      }
     })
     .catch(function(error) {
         console.log(error);
     });
 }
+
 
 function onDisplayButtonPress(){
     wipeScreenClean();
@@ -56,12 +42,14 @@ function onDisplayButtonPress(){
     display(displayType, url);
 }
 
+
 function wipeScreenClean(){
   document.getElementById('display-single').innerHTML = '';
   document.getElementById('display-map').innerHTML = '';
   document.getElementById('display-graph').innerHTML = '';
   document.getElementById('display-table').innerHTML = '';
 }
+
 
 function getDisplayType(country, crop, year){
   if (country === 'All countries') { return 'map'; }
@@ -80,8 +68,8 @@ function getURL(displayType, country, crop, year){
   return url;
 }
 
-function display(displayType, url){
 
+function display(displayType, url){
   fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results) {
@@ -95,9 +83,11 @@ function display(displayType, url){
   });
 }
 
+
 function displayMap(results){
   initializeMap()
 }
+
 
 function displayGraph(results){
   var html = '<p> display graph of results:</p>';
@@ -114,10 +104,13 @@ function displayGraph(results){
   initializeGraph()
 }
 
+
 function displayTable(results){
-  var html = '<thead><tr><th scope="col">crop</th><th scope="col">yield</th></tr></thead><tbody>';
+  var html = '<thead><tr><th scope="col">Crop</th><th scope="col">Yield (tons)</th></tr></thead><tbody>';
   for(var key in results){
-    html += '<tr><th scope="row">' + key + '</th><td>' + results[key] + '</td>';
+    if(results[key] != null){
+      html += '<tr><th scope="row">' + key + '</th><td>' + results[key] + '</td>';
+    }
   }
   html += '</tbody>';
   var menuListElement = document.getElementById('display-table');
@@ -126,10 +119,11 @@ function displayTable(results){
   }
 }
 
+
 function displaySingle(results){
   var html = '';
   if (results > 0){
-    html = '<p> This hyper-specific request found: ' + results + '</p>';
+    html = '<p> This hyper-specific request found: ' + results + ' tons.</p>';
   }
   else{
     html = '<p>Looks like nothing was produced!</p>';
@@ -140,16 +134,19 @@ function displaySingle(results){
   }
 }
 
+
 function getAPIBaseURL() {
     var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
     return baseURL;
 }
+
 
 function initialize() {
     loadMenus();
     var button = document.getElementById('display_button');
     button.onclick = onDisplayButtonPress;
 }
+
 
 window.onload = initialize;
 

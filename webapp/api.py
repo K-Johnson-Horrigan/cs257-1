@@ -63,6 +63,10 @@ def get_mapped_production(crop, year):
         yields_by_country_dict[row[0]] = row[1]
     return json.dumps(yields_by_country_dict)
 
+@api.route('/help')
+def get_help():
+    return flask.render_template('help.html')
+
 def convert_cursor_to_list(cursor):
     list = []
     for row in cursor:
@@ -131,7 +135,7 @@ def get_table_query(country, year):
                     WHERE crops.id = country_crop.crop_id \
                     AND countries.id = country_crop.country_id \
                     AND countries.country = %s
-                    AND country_crop.year = %s ORDER BY country_crop.yield;'''
+                    AND country_crop.year = %s ORDER BY country_crop.yield DESC;'''
     search_clause = (country, year)
     return [query_text, search_clause]
 
