@@ -90,6 +90,7 @@ function displayMap(results){
 
 
 function displayGraph(results){
+  /*
   var html = '<p> display graph of results:</p>';
   for(var key in results){
     html += '<p> crop: ' + key + '</p>'
@@ -101,7 +102,23 @@ function displayGraph(results){
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
-  initializeGraph()
+  */
+  var html = '<thead><tr><th scope="col">Crop</th>' 
+                      + '<th scope="col">Year</th>'
+                      + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
+  for(var crop in results){
+    for(var year in results[crop]){
+      if(results[crop][year] != null){
+        html += '<tr><th scope="row">' + crop + '</th><td>' + year + '</td><td>' + results[crop][year] + '</td>';
+      }
+    }
+  }
+  html += '</tbody>';
+  var menuListElement = document.getElementById('display-table');
+  if (menuListElement) {
+      menuListElement.innerHTML = html;
+  }
+  //initializeGraph()
 }
 
 
