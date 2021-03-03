@@ -1,7 +1,8 @@
 /*Authors: Antonia Ritter and Kai Johnson*/
 
 h3{
-  color:blue;
+  color: darkgreen;
+  margin-bottom: 1cm;
 }
 
 main {
@@ -16,12 +17,22 @@ th, td {
   text-align: center;
 }
 
+#dropdowns {
+  margin-bottom: 0.5cm;
+}
+
+#display-graph {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #display-map {
-    position: relative;
-    float: left;
-    height: 0;
-    width: 80%;
-    padding-bottom: 60%;
+  position: relative;
+  float: left;
+  height: 0;
+  width: 80%;
+  padding-bottom: 60%;
 }
 
 
@@ -53,4 +64,14 @@ Use this selector to override the line style on a given series
   /* Create a dashed line with a pattern */
   stroke-dasharray: 10px 20px;
   label: 'hi'
+}
+
+a:link {
+  color: green;
+  background-color: transparent;
+}
+
+a:visited {
+  color: #1D5A27;
+  background-color: transparent;
 }

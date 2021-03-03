@@ -85,24 +85,21 @@ function display(displayType, url){
 
 
 function displayMap(results){
-  initializeMap()
+  initializeMap(results)
 }
 
 
 function displayGraph(results){
-  /*
-  var html = '<p> display graph of results:</p>';
-  for(var key in results){
-    html += '<p> crop: ' + key + '</p>'
-    for(var subkey in results[key]){
-      html += '<p>' + subkey + ' : ' + results[key][subkey] + '</p>';
-    }
+  var element = document.getElementById('display-graph');
+  if (element) {
+    // chartjs graph gets inserted here 
+    element.innerHTML = '<canvas id="crop-graph"></canvas>';
   }
-  var menuListElement = document.getElementById('display-graph');
-  if (menuListElement) {
-      menuListElement.innerHTML = html;
+
+  if (Object.keys(results).length==1){
+    initializeGraphOneLine(results)
   }
-  */
+  // fill in table 
   var html = '<thead><tr><th scope="col">Crop</th>' 
                       + '<th scope="col">Year</th>'
                       + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
@@ -118,7 +115,6 @@ function displayGraph(results){
   if (menuListElement) {
       menuListElement.innerHTML = html;
   }
-  //initializeGraph()
 }
 
 
@@ -183,13 +179,50 @@ function initializeMap() {
                           });
 }
 
-function initializeGraph() {
-  var data = {
-    labels: [2016, 2017, 2018, 2019],
-    series: [
-      { className: 'thing1', data: [400, 400, 500, 300] },
-      { className: 'thing2', data: [600, 300, 400, 500] },
-    ]};
-  var options = {}
-  new Chartist.Line('#display-graph', data, options);
+function initializeGraphOneLine(results) {
+
+  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [yield, yield, ...], fill: false}
+  var cropLines = []
+  var yieldData = []
+  var years = []
+  // results = {crop: {year: yield, year: yield, …}, crop: …}
+  for (var crop in results){
+    for (var year in results[crop]){
+      years.push(year)
+      yieldData.push(results[crop][year])
+    }
+    var line = {label: crop, backgroundColor: '#2CAB42', borderColor: '#2CCE48', data: yieldData, fill: false}
+    cropLines.push(line) 
+  }
+
+  var ctx = document.getElementById('crop-graph').getContext('2d');
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+    // The data for our dataset
+    data: {
+        // the x-axis 
+        labels: years,
+        // the lines 
+        datasets: cropLines
+    },
+    // Configuration options go here
+    options: {
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {display: true, labelString: 'Year'}
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {display: true, labelString: 'Yield (tons)'}
+        }]
+      },
+      legend: {display: false, position: 'center'}
+    }
+  });
 }
