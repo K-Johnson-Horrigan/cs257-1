@@ -10,6 +10,10 @@ h4 {
   margin-top: 1cm;
 }
 
+body {
+  font-family: "Lucida Console", "Courier New";
+}
+
 main {
   margin-top: 2rem;
   margin-bottom: 1cm;
@@ -30,6 +34,14 @@ th {
   text-align: left;
 }
 
+#about-link {
+  color: #D9F3DE;
+}
+
+#what-crop-link {
+  color: #174A1F;
+}
+
 #dropdowns {
   margin-bottom: 0.5cm;
 }
@@ -43,13 +55,18 @@ th {
 }
 
 #years_dropdown {
-  width: 2.5cm;
+  width: 3cm;
 }
 
 #display-graph {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#crops-about {
+  text-align: left;
+  margin-left: 1cm;
 }
 
 #display-map-container {

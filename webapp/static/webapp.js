@@ -84,14 +84,52 @@ function display(displayType, url){
 }
 
 
+// takes results of the form {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}
 function displayMap(results){
   var element = document.getElementById('display-map');
   if (element) {
     // map gets inserted here
     // so map container spacing doesn't mess up other displays
-    element.innerHTML = '<div id="display-map-container"></div>'
-  };
-  initializeMap(results)
+    element.innerHTML = '<div id="display-map-container"></div>';
+  }
+  initializeMap(results);
+
+  var sortedResults = sortMapResults(results);
+  var tableHTML = makeMapTable(sortedResults); 
+  var tableElement = document.getElementById('display-table');
+  if (tableElement) {
+      tableElement.innerHTML = tableHTML;
+  }
+}
+
+
+// takes results of the form {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
+// returns sorted results [[United States of America, 189900], [Australia, 5], ...]
+function sortMapResults(results){
+  var sortedResults = []; 
+  for (var country_abb in results){
+    console.log(country_abb);
+    sortedResults.push([results[country_abb]['country_name'], results[country_abb]['production']]); 
+  }
+
+  // sort the array 
+  sortedResults.sort(function(a,b){ 
+    return b[1] - a[1];
+  });
+  return sortedResults;
+}
+
+
+// takes sorted results [[United States of America, 189900], [Australia, 5], ...]
+function makeMapTable(sortedResults){
+  var html = '<h4>Total Production</h4>'
+            + '<table><thead><tr><th scope="col">Country</th>'
+            + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
+  for (var row of sortedResults){
+    html += '<tr><th scope="row">' + row[0] + '</th><td>' + row[1] + '</td>';
+  }
+  html += '</tbody></table>';
+  return html;
 }
 
 
@@ -100,11 +138,7 @@ function displayGraph(results){
 
   var sortedResults = sortGraphResults(results);
 
-  if (Object.keys(results).length==1){
-    initializeGraphOneLine(results);
-  } else {
-    initializeGraphManyLine(sortedResults, results);
-  }
+  initializeGraph(sortedResults, results);
 
   // Totals table (crop and total production over time)
   var html = makeTotalTable(sortedResults);
@@ -255,66 +289,12 @@ function initializeMap() {
                           });
 }
 
-function initializeGraphOneLine(results) {
-  // insert graph canvas 
-  var element = document.getElementById('display-graph');
-  if (element) {
-    // chartjs graph gets inserted here 
-    element.innerHTML = '<canvas id="crop-graph"></canvas>';
-  }
-
-  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [production, production, ...], fill: false}
-  var cropLines = []
-  var productionData = []
-  var years = []
-  // results = {crop: {year: production, year: production, …}, crop: …}
-  for (var crop in results){
-    for (var year in results[crop]){
-      years.push(year)
-      productionData.push(results[crop][year])
-    }
-    var line = {label: crop, backgroundColor: '#2CAB42', borderColor: '#2CCE48', data: productionData, fill: false}
-    cropLines.push(line) 
-  }
-
-  var ctx = document.getElementById('crop-graph').getContext('2d');
-  var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
-    // The data for our dataset
-    data: {
-        // the x-axis 
-        labels: years,
-        // the lines 
-        datasets: cropLines
-    },
-    // Configuration options go here
-    options: {
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
-      scales: {
-        xAxes: [{
-          display: true,
-          scaleLabel: {display: true, labelString: 'Year'}
-        }],
-        yAxes: [{
-          display: true,
-          scaleLabel: {display: true, labelString: 'Production (tons)'}
-        }]
-      },
-      legend: {display: false, position: 'center'}
-    }
-  });
-}
-
 // sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
 // results in the form {crop: {year: production, year: production, …}, crop: …}
-function initializeGraphManyLine(sortedResults, results) {
+function initializeGraph(sortedResults, results) {
 
   // number of crops to display on graph 
-  var maxCrops = 5; 
+  var maxCrops = 8; 
 
   // insert graph canvas 
   var element = document.getElementById('display-graph');
@@ -324,12 +304,16 @@ function initializeGraphManyLine(sortedResults, results) {
   }
 
   // get top crops to graph 
-  var topResults = []; // a list of crops 
+  var topResults = []; // a list of crops
+  // if it's a one-crop query 
+  if (Object.keys(results).length==1){
+    maxCrops = 1;
+  } 
   for (var i = 0; i < maxCrops; i++){
     topResults.push(sortedResults[i][0]);
   }
 
-  var colors = ['red', 'orange', 'green', 'blue', 'purple']; 
+  var colors = ['red', 'orange', 'yellowgreen', 'green', 'darkgreen', 'blue', 'purple', '#F7BFB4']; 
 
   // get years for x-axis 
   var years = [];
