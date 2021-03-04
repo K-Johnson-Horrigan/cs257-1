@@ -106,7 +106,7 @@ def get_map_query(crop, year):
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
                         AND crops.crop = %s \
-                        GROUP BY countries.country;'''
+                        GROUP BY countries.country, countries.abbreviation;'''
         search_clause = (crop, )
     elif year != 'All years' and crop == 'All crops':
         query_text = '''SELECT countries.country, countries.abbreviation, SUM(country_crop.production) \
@@ -114,14 +114,14 @@ def get_map_query(crop, year):
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
                         AND country_crop.year = %s \
-                        GROUP BY countries.country;'''
+                        GROUP BY countries.country, countries.abbreviation;'''
         search_clause = (year,)
     elif year == 'All years' and crop == 'All crops':
         query_text = '''SELECT countries.country, countries.abbreviation, SUM(country_crop.production) \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
-                        GROUP BY countries.country;'''
+                        GROUP BY countries.country, countries.abbreviation;'''
         search_clause = ()
     return [query_text, search_clause]
 
