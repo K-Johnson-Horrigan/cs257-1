@@ -95,7 +95,7 @@ function displayMap(results){
 }
 
 
-// takes results in format {crop: [year: yield, year: yield], crop...}
+// takes results in format {crop: [year: production, year: production], crop...}
 function displayGraph(results){
   if (Object.keys(results).length==1){
     initializeGraphOneLine(results)
@@ -116,46 +116,46 @@ function displayGraph(results){
 }
 
 
-// takes results in format {crop: [year: yield, year: yield], crop...}
-// returns something like [[crop, yield], [crop, yield]] sorted by yield (descending)
+// takes results in format {crop: [year: production, year: production], crop...}
+// returns something like [[crop, production], [crop, production]] sorted by production (descending)
 function sortGraphResults(results){
 
   var sortedResults = [["hi", "there"]];
 
   for(var crop in results){
-    var totalYield = 0;
+    var totalProduction = 0;
     for(var year in results[crop]){
       if(results[crop][year] != null){
-        totalYield += results[crop][year];
+        totalProduction += results[crop][year];
       }
     }
-    sortedResults.push([crop, totalYield]) // not yet sorted 
+    sortedResults.push([crop, totalProduction]) // not yet sorted 
   }
   // sort the array 
   sortedResults.sort(function(a,b){return a[1] - b[1]});
   return sortedResults; 
 }
 
-// takes results in format {crop: [year: yield, year: yield], crop...}
-// returns html for a table with headints Crop and Yield 
+// takes results in format {crop: [year: production, year: production], crop...}
+// returns html for a table with headints Crop and production 
 function makeTotalTable(sortedResults){
   var html = '<h4>Total Production</h4>'
             + '<table><thead><tr><th scope="col">Crop</th>'
-            + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
+            + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
 
   // for(var crop in results){
-  //   var totalYield = 0;
+  //   var totalProduction = 0;
   //   for(var year in results[crop]){
   //     if(results[crop][year] != null){
-  //       totalYield += results[crop][year];
+  //       totalProduction += results[crop][year];
   //     }
   //   }
 
   for(var row in sortedResults){
     var crop  = row[0];
-    var totalYield = row[1];
-    if(totalYield>0){
-      html += '<tr><th scope="row">' + crop + '</th><td>' + totalYield + '</td>';
+    var totalProduction = row[1];
+    if(totalProduction>0){
+      html += '<tr><th scope="row">' + crop + '</th><td>' + totalProduction + '</td>';
     }
   }
   
@@ -168,7 +168,7 @@ function makeAnnualTable(results){
   var html = '<h4>Annual Production</h4>' 
                       + '<table><thead><tr><th scope="col">Crop</th>' 
                       + '<th scope="col">Year</th>'
-                      + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
+                      + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
   for(var crop in results){
     for(var year in results[crop]){
       if(results[crop][year] != null){
@@ -184,7 +184,7 @@ function makeAnnualTable(results){
 function displayTable(results){
   var html = '<h4>Crop Production</h4><table>'
             + '<thead><tr><th scope="col">Crop</th>'
-            + '<th scope="col">Yield (tons)</th>'
+            + '<th scope="col">Production (tons)</th>'
             + '</tr></thead><tbody>';
   for(var key in results){
     if(results[key] != null){
@@ -229,7 +229,7 @@ function initialize() {
 
 window.onload = initialize;
 
-var extraCountryInfo = {USA: {yield: 100, fillColor: '#2222aa'}, CAN: {yield: 100, fillColor: '#2222aa'}};
+var extraCountryInfo = {USA: {production: 100, fillColor: '#2222aa'}, CAN: {production: 100, fillColor: '#2222aa'}};
 var mapFills = {defaultFill: '#2222aa', CAN: '#2222aa'};
 
 function initializeMap() {
@@ -253,17 +253,17 @@ function initializeGraphOneLine(results) {
     element.innerHTML = '<canvas id="crop-graph"></canvas>';
   }
 
-  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [yield, yield, ...], fill: false}
+  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [production, production, ...], fill: false}
   var cropLines = []
-  var yieldData = []
+  var productionData = []
   var years = []
-  // results = {crop: {year: yield, year: yield, …}, crop: …}
+  // results = {crop: {year: production, year: production, …}, crop: …}
   for (var crop in results){
     for (var year in results[crop]){
       years.push(year)
-      yieldData.push(results[crop][year])
+      productionData.push(results[crop][year])
     }
-    var line = {label: crop, backgroundColor: '#2CAB42', borderColor: '#2CCE48', data: yieldData, fill: false}
+    var line = {label: crop, backgroundColor: '#2CAB42', borderColor: '#2CCE48', data: productionData, fill: false}
     cropLines.push(line) 
   }
 
@@ -291,7 +291,7 @@ function initializeGraphOneLine(results) {
         }],
         yAxes: [{
           display: true,
-          scaleLabel: {display: true, labelString: 'Yield (tons)'}
+          scaleLabel: {display: true, labelString: 'Production (tons)'}
         }]
       },
       legend: {display: false, position: 'center'}

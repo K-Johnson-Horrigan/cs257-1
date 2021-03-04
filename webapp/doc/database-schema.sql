@@ -1,6 +1,7 @@
 CREATE TABLE countries(
   id int,
-  country text
+  country text, 
+  abbreviation text
 );
 
 CREATE TABLE crops(
@@ -12,5 +13,5 @@ CREATE TABLE country_crop(
   country_id int,
   crop_id int,
   year int,
-  yield int
+  production BIGINT
 );

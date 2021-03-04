@@ -23,8 +23,8 @@ def get_single_production(country, crop, year):
     query = get_single_query(country, crop, year)
     cursor = query_database(query)
     for row in cursor:
-        yield_number = row
-    return json.dumps(yield_number)
+        production_number = row
+    return json.dumps(production_number)
 
 @api.route('/graphed_production/<country>/<crop>')
 def get_graphed_production(country, crop):
@@ -32,36 +32,45 @@ def get_graphed_production(country, crop):
     cursor = query_database(query)
     crops_set = set() 
     cursor_table = []
-    for row in cursor: # row is crop, year, yield 
+    for row in cursor: # row is crop, year, production 
         cursor_table.append(row)
         crops_set.add(row[0])
-    yields_by_year_dict = {} # {crop: {year: yield, year: yield, …}, crop: …}
+    productions_by_year_dict = {} # {crop: {year: production, year: production, …}, crop: …}
     # create the subdict for each crop individually 
     for crop in crops_set:
         one_crop_dict = {}
         for row in cursor_table:
             if row[0] == crop:
                 one_crop_dict[row[1]] = row[2]
-        yields_by_year_dict[crop] = one_crop_dict
-    return json.dumps(yields_by_year_dict)
+        productions_by_year_dict[crop] = one_crop_dict
+    return json.dumps(productions_by_year_dict)
 
 @api.route('/tabled_production/<country>/<year>')
 def get_tabled_production(country, year):
     query = get_table_query(country, year)
     cursor = query_database(query)
-    yields_by_crop_dict = {} # {crop: yield, crop: yield, ...}
+    productions_by_crop_dict = {} # {crop: production, crop: production, ...}
     for row in cursor: 
-        yields_by_crop_dict[row[0]] = row[1]
-    return json.dumps(yields_by_crop_dict)
+        productions_by_crop_dict[row[0]] = row[1]
+    return json.dumps(productions_by_crop_dict)
 
 @api.route('/mapped_production/<crop>/<year>')
 def get_mapped_production(crop, year):
     query = get_map_query(crop, year)
     cursor = query_database(query)
-    yields_by_country_dict = {} #country : yield
-    for row in cursor:
-        yields_by_country_dict[row[0]] = row[1]
-    return json.dumps(yields_by_country_dict)
+    # format: {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
+    productions_by_country_dict = {}
+    for row in cursor: # row is country, abbreviation, production 
+        country_name = row[0]
+        abbreviation = row[1]
+        production = row[2]
+        if production!=None:
+            # production has some big numbers 
+            # so it's in the database as BIGINTs
+            # this deals with that 
+            production = int(production)
+        productions_by_country_dict[abbreviation] = {'production': production, 'country_name': country_name}
+    return json.dumps(productions_by_country_dict)
 
 @api.route('/help')
 def get_help():
@@ -84,15 +93,15 @@ def get_menus_query(key):
 def get_map_query(crop, year):
     '''Returns query text and search clause tuple in a list'''
     if crop != 'All crops' and year != 'All years':
-        query_text = '''SELECT countries.country, country_crop.yield
-                        FROM countries, crops, country_crop
-                        WHERE crops.id = country_crop.crop_id
-                        AND countries.id = country_crop.country_id
-                        AND country_crop.year = %s
+        query_text = '''SELECT countries.country, countries.abbreviation, country_crop.production \
+                        FROM countries, crops, country_crop \
+                        WHERE crops.id = country_crop.crop_id \
+                        AND countries.id = country_crop.country_id \
+                        AND country_crop.year = %s \
                         AND crops.crop = %s;'''
         search_clause = (year, crop)
     elif year == 'All years' and crop != 'All crops':
-        query_text = '''SELECT countries.country, SUM(country_crop.yield) \
+        query_text = '''SELECT countries.country, countries.abbreviation, SUM(country_crop.production) \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
@@ -100,7 +109,7 @@ def get_map_query(crop, year):
                         GROUP BY countries.country;'''
         search_clause = (crop, )
     elif year != 'All years' and crop == 'All crops':
-        query_text = '''SELECT countries.country, SUM(country_crop.yield) \
+        query_text = '''SELECT countries.country, countries.abbreviation, SUM(country_crop.production) \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
@@ -108,7 +117,7 @@ def get_map_query(crop, year):
                         GROUP BY countries.country;'''
         search_clause = (year,)
     elif year == 'All years' and crop == 'All crops':
-        query_text = '''SELECT countries.country, SUM(country_crop.yield) \
+        query_text = '''SELECT countries.country, countries.abbreviation, SUM(country_crop.production) \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
@@ -118,7 +127,7 @@ def get_map_query(crop, year):
 
 
 def get_single_query(country, crop, year):
-    query_text = '''SELECT country_crop.yield \
+    query_text = '''SELECT country_crop.production \
                     FROM countries, crops, country_crop \
                     WHERE countries.id = country_crop.country_id \
                     AND crops.id = country_crop.crop_id \
@@ -130,19 +139,19 @@ def get_single_query(country, crop, year):
 
 
 def get_table_query(country, year):
-    query_text = '''SELECT crops.crop, country_crop.yield \
+    query_text = '''SELECT crops.crop, country_crop.production \
                     FROM countries, crops, country_crop \
                     WHERE crops.id = country_crop.crop_id \
                     AND countries.id = country_crop.country_id \
                     AND countries.country = %s
-                    AND country_crop.year = %s ORDER BY country_crop.yield DESC;'''
+                    AND country_crop.year = %s ORDER BY country_crop.production DESC;'''
     search_clause = (country, year)
     return [query_text, search_clause]
 
 
 def get_graph_query(country, crop):
     if crop != 'All crops':
-        query_text = '''SELECT crops.crop, country_crop.year, country_crop.yield \
+        query_text = '''SELECT crops.crop, country_crop.year, country_crop.production \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \
@@ -150,7 +159,7 @@ def get_graph_query(country, crop):
                         AND crops.crop = %s;'''
         search_clause = (country, crop)
     elif crop == 'All crops':
-        query_text = '''SELECT crops.crop, country_crop.year, country_crop.yield \
+        query_text = '''SELECT crops.crop, country_crop.year, country_crop.production \
                         FROM countries, crops, country_crop \
                         WHERE crops.id = country_crop.crop_id \
                         AND countries.id = country_crop.country_id \

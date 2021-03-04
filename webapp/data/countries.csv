@@ -1,246 +1,246 @@
-2,Afghanistan
-3,Albania
-4,Algeria
-7,Angola
-8,Antigua and Barbuda
-9,Argentina
-1,Armenia
-10,Australia
-11,Austria
-52,Azerbaijan
-12,Bahamas
-13,Bahrain
-16,Bangladesh
-14,Barbados
-57,Belarus
-255,Belgium
-15,Belgium-Luxembourg
-23,Belize
-53,Benin
-18,Bhutan
-19,Bolivia (Plurinational State of)
-80,Bosnia and Herzegovina
-20,Botswana
-21,Brazil
-26,Brunei Darussalam
-27,Bulgaria
-233,Burkina Faso
-29,Burundi
-35,Cabo Verde
-115,Cambodia
-32,Cameroon
-33,Canada
-37,Central African Republic
-39,Chad
-40,Chile
-351,China
-96,"China, Hong Kong SAR"
-128,"China, Macao SAR"
-41,"China, mainland"
-214,"China, Taiwan Province of"
-44,Colombia
-45,Comoros
-46,Congo
-47,Cook Islands
-48,Costa Rica
-107,C�te d'Ivoire
-98,Croatia
-49,Cuba
-50,Cyprus
-167,Czechia
-51,Czechoslovakia
-116,Democratic People's Republic of Korea
-250,Democratic Republic of the Congo
-54,Denmark
-72,Djibouti
-55,Dominica
-56,Dominican Republic
-58,Ecuador
-59,Egypt
-60,El Salvador
-61,Equatorial Guinea
-178,Eritrea
-63,Estonia
-209,Eswatini
-238,Ethiopia
-62,Ethiopia PDR
-64,Faroe Islands
-66,Fiji
-67,Finland
-68,France
-69,French Guyana
-70,French Polynesia
-74,Gabon
-75,Gambia
-73,Georgia
-79,Germany
-81,Ghana
-84,Greece
-86,Grenada
-87,Guadeloupe
-89,Guatemala
-90,Guinea
-175,Guinea-Bissau
-91,Guyana
-93,Haiti
-95,Honduras
-97,Hungary
-99,Iceland
-100,India
-101,Indonesia
-102,Iran (Islamic Republic of)
-103,Iraq
-104,Ireland
-105,Israel
-106,Italy
-109,Jamaica
-110,Japan
-112,Jordan
-108,Kazakhstan
-114,Kenya
-83,Kiribati
-118,Kuwait
-113,Kyrgyzstan
-120,Lao People's Democratic Republic
-119,Latvia
-121,Lebanon
-122,Lesotho
-123,Liberia
-124,Libya
-126,Lithuania
-256,Luxembourg
-129,Madagascar
-130,Malawi
-131,Malaysia
-132,Maldives
-133,Mali
-134,Malta
-127,Marshall Islands
-135,Martinique
-136,Mauritania
-137,Mauritius
-138,Mexico
-145,Micronesia (Federated States of)
-141,Mongolia
-273,Montenegro
-143,Morocco
-144,Mozambique
-28,Myanmar
-147,Namibia
-148,Nauru
-149,Nepal
-150,Netherlands
-153,New Caledonia
-156,New Zealand
-157,Nicaragua
-158,Niger
-159,Nigeria
-160,Niue
-154,North Macedonia
-162,Norway
-221,Oman
-165,Pakistan
-299,Palestine
-166,Panama
-168,Papua New Guinea
-169,Paraguay
-170,Peru
-171,Philippines
-173,Poland
-174,Portugal
-177,Puerto Rico
-179,Qatar
-117,Republic of Korea
-146,Republic of Moldova
-182,R�union
-183,Romania
-185,Russian Federation
-184,Rwanda
-188,Saint Kitts and Nevis
-189,Saint Lucia
-191,Saint Vincent and the Grenadines
-244,Samoa
-193,Sao Tome and Principe
-194,Saudi Arabia
-195,Senegal
-272,Serbia
-186,Serbia and Montenegro
-196,Seychelles
-197,Sierra Leone
-200,Singapore
-199,Slovakia
-198,Slovenia
-25,Solomon Islands
-201,Somalia
-202,South Africa
-277,South Sudan
-203,Spain
-38,Sri Lanka
-276,Sudan
-206,Sudan (former)
-207,Suriname
-210,Sweden
-211,Switzerland
-212,Syrian Arab Republic
-208,Tajikistan
-216,Thailand
-176,Timor-Leste
-217,Togo
-218,Tokelau
-219,Tonga
-220,Trinidad and Tobago
-222,Tunisia
-223,Turkey
-213,Turkmenistan
-227,Tuvalu
-226,Uganda
-230,Ukraine
-225,United Arab Emirates
-229,United Kingdom of Great Britain and Northern Ireland
-215,United Republic of Tanzania
-231,United States of America
-234,Uruguay
-228,USSR
-235,Uzbekistan
-155,Vanuatu
-236,Venezuela (Bolivarian Republic of)
-237,Viet Nam
-249,Yemen
-248,Yugoslav SFR
-251,Zambia
-181,Zimbabwe
-5000,World
-5100,Africa
-5101,Eastern Africa
-5102,Middle Africa
-5103,Northern Africa
-5104,Southern Africa
-5105,Western Africa
-5200,Americas
-5203,Northern America
-5204,Central America
-5206,Caribbean
-5207,South America
-5300,Asia
-5301,Central Asia
-5302,Eastern Asia
-5303,Southern Asia
-5304,South-eastern Asia
-5305,Western Asia
-5400,Europe
-5401,Eastern Europe
-5402,Northern Europe
-5403,Southern Europe
-5404,Western Europe
-5500,Oceania
-5501,Australia and New Zealand
-5502,Melanesia
-5503,Micronesia
-5504,Polynesia
-5706,European Union (28)
-5707,European Union (27)
-5801,Least Developed Countries
-5802,Land Locked Developing Countries
-5803,Small Island Developing States
-5815,Low Income Food Deficit Countries
-5817,Net Food Importing Developing Countries
+2,Afghanistan,AFG
+3,Albania,ALB
+4,Algeria,DZA
+7,Angola,AGO
+8,Antigua and Barbuda,
+9,Argentina,ARG
+1,Armenia,ARM
+10,Australia,AUS
+11,Austria,AUT
+52,Azerbaijan,AZE
+12,Bahamas,BHS
+13,Bahrain,
+16,Bangladesh,BGD
+14,Barbados,
+57,Belarus,BLR
+255,Belgium,BEL
+15,Belgium-Luxembourg,
+23,Belize,BLZ
+53,Benin,BEN
+18,Bhutan,BTN
+19,Bolivia (Plurinational State of),BOL
+80,Bosnia and Herzegovina,BIH
+20,Botswana,BWA
+21,Brazil,BRA
+26,Brunei Darussalam,BRN
+27,Bulgaria,BGR
+233,Burkina Faso,BFA
+29,Burundi,BDI
+35,Cabo Verde,
+115,Cambodia,KHM
+32,Cameroon,CMR
+33,Canada,CAN
+37,Central African Republic,CAF
+39,Chad,TCD
+40,Chile,CHL
+351,China,
+96,"China, Hong Kong SAR",
+128,"China, Macao SAR",
+41,"China, mainland",CHN
+214,"China, Taiwan Province of",TWN
+44,Colombia,COL
+45,Comoros,
+46,Congo,COG
+47,Cook Islands,
+48,Costa Rica,CRI
+107,Ivory Coast,CIV
+98,Croatia,HRV
+49,Cuba,CUB
+50,Cyprus,CYP
+167,Czechia,CZE
+51,Czechoslovakia,
+116,Democratic People's Republic of Korea,PRK
+250,Democratic Republic of the Congo,COD
+54,Denmark,DNK
+72,Djibouti,DJI
+55,Dominica,
+56,Dominican Republic,DOM
+58,Ecuador,ECU
+59,Egypt,EGY
+60,El Salvador,SLV
+61,Equatorial Guinea,GNQ
+178,Eritrea,ERI
+63,Estonia,EST
+209,Eswatini,
+238,Ethiopia,ETH
+62,Ethiopia PDR,
+64,Faroe Islands,
+66,Fiji,FJI
+67,Finland,FIN
+68,France,FRA
+69,French Guyana,GUF
+70,French Polynesia,
+74,Gabon,GAB
+75,Gambia,GMB
+73,Georgia,GEO
+79,Germany,DEU
+81,Ghana,GHA
+84,Greece,GRC
+86,Grenada,
+87,Guadeloupe,
+89,Guatemala,GTM
+90,Guinea,GIN
+175,Guinea-Bissau,GNB
+91,Guyana,GUY
+93,Haiti,HTI
+95,Honduras,HND
+97,Hungary,HUN
+99,Iceland,ISL
+100,India,IND
+101,Indonesia,IDN
+102,Iran (Islamic Republic of),IRN
+103,Iraq,IRQ
+104,Ireland,IRL
+105,Israel,ISR
+106,Italy,ITA
+109,Jamaica,JAM
+110,Japan,JPN
+112,Jordan,JOR
+108,Kazakhstan,KAZ
+114,Kenya,KEN
+83,Kiribati,
+118,Kuwait,KWT
+113,Kyrgyzstan,KGZ
+120,Lao People's Democratic Republic,LAO
+119,Latvia,LVA
+121,Lebanon,LBN
+122,Lesotho,LSO
+123,Liberia,LBR
+124,Libya,LBY
+126,Lithuania,LTU
+256,Luxembourg,LUX
+129,Madagascar,MDG
+130,Malawi,MWI
+131,Malaysia,MYS
+132,Maldives,
+133,Mali,MLI
+134,Malta,
+127,Marshall Islands,
+135,Martinique,
+136,Mauritania,MRT
+137,Mauritius,
+138,Mexico,MEX
+145,Micronesia (Federated States of),
+141,Mongolia,MNG
+273,Montenegro,MNE
+143,Morocco,MAR
+144,Mozambique,MOZ
+28,Myanmar,MMR
+147,Namibia,NAM
+148,Nauru,
+149,Nepal,NPL
+150,Netherlands,NLD
+153,New Caledonia,NCL
+156,New Zealand,NZL
+157,Nicaragua,NIC
+158,Niger,NER
+159,Nigeria,NGA
+160,Niue,
+154,North Macedonia,
+162,Norway,NOR
+221,Oman,OMN
+165,Pakistan,PAK
+299,Palestine,
+166,Panama,PAN
+168,Papua New Guinea,PNG
+169,Paraguay,PRY
+170,Peru,PER
+171,Philippines,PHL
+173,Poland,POL
+174,Portugal,PRT
+177,Puerto Rico,PRI
+179,Qatar,QAT
+117,Republic of Korea,KOR
+146,Republic of Moldova,MDA
+182,R�union,
+183,Romania,ROU
+185,Russian Federation,RUS
+184,Rwanda,RWA
+188,Saint Kitts and Nevis,
+189,Saint Lucia,
+191,Saint Vincent and the Grenadines,
+244,Samoa,
+193,Sao Tome and Principe,
+194,Saudi Arabia,SAU
+195,Senegal,SEN
+272,Serbia,SRB
+186,Serbia and Montenegro,
+196,Seychelles,
+197,Sierra Leone,SLE
+200,Singapore,
+199,Slovakia,SVK
+198,Slovenia,SVN
+25,Solomon Islands,SLB
+201,Somalia,SOM
+202,South Africa,ZAF
+277,South Sudan,SSD
+203,Spain,ESP
+38,Sri Lanka,LKA
+276,Sudan,SDN
+206,Sudan (former),
+207,Suriname,SUR
+210,Sweden,SWE
+211,Switzerland,CHE
+212,Syrian Arab Republic,SYR
+208,Tajikistan,TJK
+216,Thailand,THA
+176,Timor-Leste,TLS
+217,Togo,TGO
+218,Tokelau,
+219,Tonga,
+220,Trinidad and Tobago,TTO
+222,Tunisia,TUN
+223,Turkey,TUR
+213,Turkmenistan,TKM
+227,Tuvalu,
+226,Uganda,UGA
+230,Ukraine,UKR
+225,United Arab Emirates,ARE
+229,United Kingdom of Great Britain and Northern Ireland,GBR
+215,United Republic of Tanzania,TZA
+231,United States of America,USA
+234,Uruguay,URY
+228,USSR,
+235,Uzbekistan,UZB
+155,Vanuatu,VUT
+236,Venezuela (Bolivarian Republic of),VEN
+237,Viet Nam,VNM
+249,Yemen,YEM
+248,Yugoslav SFR,
+251,Zambia,ZMB
+181,Zimbabwe,ZWE
+5000,World,
+5100,Africa,
+5101,Eastern Africa,
+5102,Middle Africa,
+5103,Northern Africa,
+5104,Southern Africa,
+5105,Western Africa,
+5200,Americas,
+5203,Northern America,
+5204,Central America,
+5206,Caribbean,
+5207,South America,
+5300,Asia,
+5301,Central Asia,
+5302,Eastern Asia,
+5303,Southern Asia,
+5304,South-eastern Asia,
+5305,Western Asia,
+5400,Europe,
+5401,Eastern Europe,
+5402,Northern Europe,
+5403,Southern Europe,
+5404,Western Europe,
+5500,Oceania,
+5501,Australia and New Zealand,
+5502,Melanesia,
+5503,Micronesia,
+5504,Polynesia,
+5706,European Union (28),
+5707,European Union (27),
+5801,Least Developed Countries,
+5802,Land Locked Developing Countries,
+5803,Small Island Developing States,
+5815,Low Income Food Deficit Countries,
+5817,Net Food Importing Developing Countries,
