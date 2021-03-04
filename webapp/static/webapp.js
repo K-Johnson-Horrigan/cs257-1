@@ -4,29 +4,29 @@
 
 
 function loadMenus() {
-    var url = getAPIBaseURL() + '/menus/';
-    fetch(url, {method: 'get'})
-    .then((response) => response.json())
-    .then(function(menus) {
-      var dropdowns = ['countries', 'crops', 'years'];
-      for (var i = 0; i < dropdowns.length; i++){
-        var dropdown = dropdowns[i];
-        var html = '';
-        var elements = menus[0][dropdown];
-        html += '<select id="' + dropdown + '_dropdown">';
-        for(var j = 0; j < elements.length; j++){
-          html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
-        }
-        html += '</select>';
-        var menuElement = document.getElementById(dropdown + '_col');
-        if (menuElement) {
-            menuElement.innerHTML = html;
-        }
+  var url = getAPIBaseURL() + '/menus/';
+  fetch(url, {method: 'get'})
+  .then((response) => response.json())
+  .then(function(menus) {
+    var dropdowns = ['countries', 'crops', 'years'];
+    for (var i = 0; i < dropdowns.length; i++){
+      var dropdown = dropdowns[i];
+      var html = '';
+      var elements = menus[0][dropdown];
+      html += '<select id="' + dropdown + '_dropdown">';
+      for(var j = 0; j < elements.length; j++){
+        html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
       }
-    })
-    .catch(function(error) {
-        console.log(error);
-    });
+      html += '</select>';
+      var menuElement = document.getElementById(dropdown + '_col');
+      if (menuElement) {
+          menuElement.innerHTML = html;
+      }
+    }
+  })
+  .catch(function(error) {
+      console.log(error);
+  });
 }
 
 
@@ -85,22 +85,88 @@ function display(displayType, url){
 
 
 function displayMap(results){
+  var element = document.getElementById('display-map');
+  if (element) {
+    // map gets inserted here
+    // so map container spacing doesn't mess up other displays
+    element.innerHTML = '<div id="display-map-container"></div>'
+  };
   initializeMap(results)
 }
 
 
+// takes results in format {crop: [year: yield, year: yield], crop...}
 function displayGraph(results){
-  var element = document.getElementById('display-graph');
-  if (element) {
-    // chartjs graph gets inserted here 
-    element.innerHTML = '<canvas id="crop-graph"></canvas>';
-  }
-
   if (Object.keys(results).length==1){
     initializeGraphOneLine(results)
   }
-  // fill in table 
-  var html = '<thead><tr><th scope="col">Crop</th>' 
+
+  var sortedResults = sortGraphResults(results);
+
+  // Totals table (crop and total production over time)
+  var html = makeTotalTable(sortedResults);
+
+  // Annual table (crop, year, and production that year) IT'S A REALLY LONG TABLE
+  //html += makeAnnualTable(results) 
+
+  var element = document.getElementById('display-table');
+  if (element) {
+      element.innerHTML = html;
+  }
+}
+
+
+// takes results in format {crop: [year: yield, year: yield], crop...}
+// returns something like [[crop, yield], [crop, yield]] sorted by yield (descending)
+function sortGraphResults(results){
+
+  var sortedResults = [["hi", "there"]];
+
+  for(var crop in results){
+    var totalYield = 0;
+    for(var year in results[crop]){
+      if(results[crop][year] != null){
+        totalYield += results[crop][year];
+      }
+    }
+    sortedResults.push([crop, totalYield]) // not yet sorted 
+  }
+  // sort the array 
+  sortedResults.sort(function(a,b){return a[1] - b[1]});
+  return sortedResults; 
+}
+
+// takes results in format {crop: [year: yield, year: yield], crop...}
+// returns html for a table with headints Crop and Yield 
+function makeTotalTable(sortedResults){
+  var html = '<h4>Total Production</h4>'
+            + '<table><thead><tr><th scope="col">Crop</th>'
+            + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
+
+  // for(var crop in results){
+  //   var totalYield = 0;
+  //   for(var year in results[crop]){
+  //     if(results[crop][year] != null){
+  //       totalYield += results[crop][year];
+  //     }
+  //   }
+
+  for(var row in sortedResults){
+    var crop  = row[0];
+    var totalYield = row[1];
+    if(totalYield>0){
+      html += '<tr><th scope="row">' + crop + '</th><td>' + totalYield + '</td>';
+    }
+  }
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+
+function makeAnnualTable(results){
+  var html = '<h4>Annual Production</h4>' 
+                      + '<table><thead><tr><th scope="col">Crop</th>' 
                       + '<th scope="col">Year</th>'
                       + '<th scope="col">Yield (tons)</th></tr></thead><tbody>';
   for(var crop in results){
@@ -110,22 +176,22 @@ function displayGraph(results){
       }
     }
   }
-  html += '</tbody>';
-  var menuListElement = document.getElementById('display-table');
-  if (menuListElement) {
-      menuListElement.innerHTML = html;
-  }
+  html += '</tbody></table>';
+  return html; 
 }
 
 
 function displayTable(results){
-  var html = '<thead><tr><th scope="col">Crop</th><th scope="col">Yield (tons)</th></tr></thead><tbody>';
+  var html = '<h4>Crop Production</h4><table>'
+            + '<thead><tr><th scope="col">Crop</th>'
+            + '<th scope="col">Yield (tons)</th>'
+            + '</tr></thead><tbody>';
   for(var key in results){
     if(results[key] != null){
       html += '<tr><th scope="row">' + key + '</th><td>' + results[key] + '</td>';
     }
   }
-  html += '</tbody>';
+  html += '</tbody></table>';
   var menuListElement = document.getElementById('display-table');
   if (menuListElement) {
       menuListElement.innerHTML = html;
@@ -167,7 +233,7 @@ var extraCountryInfo = {USA: {yield: 100, fillColor: '#2222aa'}, CAN: {yield: 10
 var mapFills = {defaultFill: '#2222aa', CAN: '#2222aa'};
 
 function initializeMap() {
-    var map = new Datamap({ element: document.getElementById('display-map'), // where in the HTML to put the map
+    var map = new Datamap({ element: document.getElementById('display-map-container'), // where in the HTML to put the map
                             scope: 'world', // which map?
                             projection: 'equirectangular', // what map projection? 'mercator' is also an option
                             data: extraCountryInfo, // here's some data that will be used by the popup template
@@ -180,6 +246,12 @@ function initializeMap() {
 }
 
 function initializeGraphOneLine(results) {
+  // insert graph canvas 
+  var element = document.getElementById('display-graph');
+  if (element) {
+    // chartjs graph gets inserted here 
+    element.innerHTML = '<canvas id="crop-graph"></canvas>';
+  }
 
   // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [yield, yield, ...], fill: false}
   var cropLines = []

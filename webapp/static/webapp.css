@@ -1,8 +1,13 @@
 /*Authors: Antonia Ritter and Kai Johnson*/
 
-h3{
+h3 {
   color: darkgreen;
   margin-bottom: 1cm;
+}
+
+h4 {
+  text-align: center;
+  margin-top: 1cm;
 }
 
 main {
@@ -13,28 +18,20 @@ button {
   color: green;
 }
 
-th, td {
-  text-align: center;
+table, th, td {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+th {
+  text-align: left;
 }
 
 #dropdowns {
   margin-bottom: 0.5cm;
 }
-
-#display-graph {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#display-map {
-  position: relative;
-  float: left;
-  height: 0;
-  width: 80%;
-  padding-bottom: 60%;
-}
-
 
 #countries_dropdown {
   width: 7cm;
@@ -48,22 +45,18 @@ th, td {
   width: 2.5cm;
 }
 
-table {
-  width: 5cm;
+#display-graph {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-/* Chartist 
-Use this selector to override the line style on a given series 
-.ct-series-a .ct-line {*/
-.thing1 .ct-line{
-  /* Set the colour of this series line */
-  stroke: blue;
-  /* Control the thickness of your lines */
-  stroke-width: 5px;
-  /* Create a dashed line with a pattern */
-  stroke-dasharray: 10px 20px;
-  label: 'hi'
+#display-map-container {
+  position: relative;
+  float: center;
+  height: 0;
+  width: 90%;
+  padding-bottom: 60%;
 }
 
 a:link {
