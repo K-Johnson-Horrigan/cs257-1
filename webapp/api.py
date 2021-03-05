@@ -64,12 +64,8 @@ def get_mapped_production(crop, year):
         country_name = row[0]
         abbreviation = row[1]
         production = row[2]
-        if production!=None:
-            # production has some big numbers 
-            # so it's in the database as BIGINTs
-            # this deals with that 
-            production = int(production)
-        productions_by_country_dict[abbreviation] = {'production': production, 'country_name': country_name}
+        if (abbreviation != None and production != None):
+            productions_by_country_dict[abbreviation] = {'production': int(production), 'country_name': country_name}
     return json.dumps(productions_by_country_dict)
 
 @api.route('/help')
