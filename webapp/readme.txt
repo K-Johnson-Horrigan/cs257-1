@@ -11,4 +11,5 @@ A map appears for queries including “all countries.”
 A graph appears for queries including “all years.” 
 
 FEATURES NOT YET WORKING:
-Ability to select multiple countries/crops/years from dropdown. 
+Ability to select multiple countries/crops/years from dropdown.
+Default behavior when pages first loads. 
