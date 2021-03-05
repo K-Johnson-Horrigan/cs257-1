@@ -5,7 +5,7 @@ REQUEST: /menus
 RESPONSE: A JSON list containing a dictionary that will be used to populate our dropdown search bars, with keys as the dropdown name and values a sorted list of dropdown values. E.g. {countries: [Algeria, Bulgaria, …], crops: [maize, soybeans…], years: [1961, 1962, …]} 
 
 REQUEST: /mapped_production/{crop}/{year}
-RESPONSE: A JSON dictionary configured for the map display options like so: {country: yield, country: yield, …}. The "crop" and "year" options could each also be "all," in which case yield is the crop yield summed over all crops and/or all years. 
+RESPONSE: A JSON dictionary configured for the map display options like so: {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}. The "crop" and "year" options could each also be "all," in which case yield is the crop yield summed over all crops and/or all years. 
 
 REQUEST: /tabled_production/{country}/{year}
 RESPONSE: A JSON dictionary configured to display the yields of individual crops in a table: {crop: yield, crop: yield, ...}. 
