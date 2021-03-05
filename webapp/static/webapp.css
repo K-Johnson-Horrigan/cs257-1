@@ -79,7 +79,8 @@ th {
 }
 
 .hoverpopup-map{
-  background-color: white;
+  background: #eeeeee;
+  border: 1px black solid;
 }
 
 a:link {
