@@ -69,12 +69,16 @@ th {
   margin-left: 1cm;
 }
 
-#display-map-container {
+#display-map {
   position: relative;
   float: center;
   height: 0;
-  width: 90%;
+  width: 80%;
   padding-bottom: 60%;
+}
+
+.hoverpopup-map{
+  background-color: white;
 }
 
 a:link {
