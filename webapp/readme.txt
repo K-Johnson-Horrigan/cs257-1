@@ -6,7 +6,7 @@ FEATURES CURRENTLY WORKING:
 The “About” and “What’s that crop?” pages exist, are accessible, and can return to the home page.
 The menu bars load information from the database and their input is read by the webpage.
 A table appears for appropriate queries, sorted by yield.
-A single value appears for appropriate query, displaying different messages depending on whether the yield is equal to or greater than 0.
+A single value appears for appropriate query, displaying different messages depending on whether the yield is greater than 0.
 A map appears for queries including “all countries.” 
 A graph appears for queries including “all years.” 
 
