@@ -84,55 +84,6 @@ function display(displayType, url){
 }
 
 
-// takes results of the form {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}
-function displayMap(results){
-  var element = document.getElementById('display-map');
-  if (element) {
-    // map gets inserted here
-    // so map container spacing doesn't mess up other displays
-    element.innerHTML = '<div id="display-map-container"></div>';
-  }
-  initializeMap(results);
-
-  var sortedResults = sortMapResults(results);
-  var tableHTML = makeMapTable(sortedResults); 
-  var tableElement = document.getElementById('display-table');
-  if (tableElement) {
-      tableElement.innerHTML = tableHTML;
-  }
-}
-
-
-// takes results of the form {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
-// returns sorted results [[United States of America, 189900], [Australia, 5], ...]
-function sortMapResults(results){
-  var sortedResults = []; 
-  for (var country_abb in results){
-    console.log(country_abb);
-    sortedResults.push([results[country_abb]['country_name'], results[country_abb]['production']]); 
-  }
-
-  // sort the array 
-  sortedResults.sort(function(a,b){ 
-    return b[1] - a[1];
-  });
-  return sortedResults;
-}
-
-
-// takes sorted results [[United States of America, 189900], [Australia, 5], ...]
-function makeMapTable(sortedResults){
-  var html = '<h4>Total Production</h4>'
-            + '<table><thead><tr><th scope="col">Country</th>'
-            + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
-  for (var row of sortedResults){
-    html += '<tr><th scope="row">' + row[0] + '</th><td>' + row[1] + '</td>';
-  }
-  html += '</tbody></table>';
-  return html;
-}
-
-
 // takes results in format {crop: [year: production, year: production], crop...}
 function displayGraph(results){
 
@@ -273,21 +224,6 @@ function initialize() {
 
 window.onload = initialize;
 
-var extraCountryInfo = {USA: {production: 100, fillColor: '#2222aa'}, CAN: {production: 100, fillColor: '#2222aa'}};
-var mapFills = {defaultFill: '#2222aa', CAN: '#2222aa'};
-
-function initializeMap() {
-    var map = new Datamap({ element: document.getElementById('display-map-container'), // where in the HTML to put the map
-                            scope: 'world', // which map?
-                            projection: 'equirectangular', // what map projection? 'mercator' is also an option
-                            data: extraCountryInfo, // here's some data that will be used by the popup template
-                            fills: { defaultFill: '#aa2222'},
-                            geographyConfig: {
-                                popupOnHover: false, // You can disable the hover popup
-                                highlightOnHover: false, // You can disable the color change on hover
-                                }
-                          });
-}
 
 // sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
 // results in the form {crop: {year: production, year: production, …}, crop: …}
@@ -365,4 +301,105 @@ function initializeGraph(sortedResults, results) {
       legend: {display: true, position: 'right'}
     }
   });
+}
+
+function displayMap(results){
+  var colors = ['#ffffcc', '#ffff99','#d2ff4d', '#bfff00', '#99ff99', '#00e600', '#00cc00', '#009900', '#006600', '#003300'];
+  //low production color -> high production color
+
+  var highestProduction = getHighestProduction(results);
+  var productionColorKey = createProductionColorKey(highestProduction, colors);
+  var colorizedResults = assignColorsToCountries(results, productionColorKey);
+
+  initializeMap(colorizedResults);
+  displayLegend(productionColorKey);
+}
+
+/*Returns a 2D array (since order matters) with of pairs of production step value and the corresponding color hex*/
+function createProductionColorKey(highestProduction, colors){
+  var step = highestProduction / colors.length;
+  var productionColorKey = [];
+  for (var i = 1; i <= colors.length; i++){
+    productionColorKey.push([(i * step), colors[i-1]]);
+  }
+  return productionColorKey;
+}
+
+/*Retrieves the production value for the first item in the sorted dictionary of results*/
+function getHighestProduction(results){
+  var highestProduction = 0;
+  for (var key in results){
+    if (highestProduction == 0){
+      highestProduction = results[key]['production'];
+      return highestProduction;
+    }
+  }
+}
+
+/*Creates and returns a dictionary that is essentially just 'results'
+with an additional field per country describing color,
+assigned based on the color brackets of 'productionColorKey'*/
+function assignColorsToCountries(results, productionColorKey){
+  var colorizedResults = {};
+  var other = results;
+  for (var abbreviation in results){
+    colorizedResults[abbreviation] = {};
+    color = '';
+    for (var i = 0; i < productionColorKey.length; i ++){
+      if (results[abbreviation]['production'] <= productionColorKey[i][0]){
+        color = productionColorKey[i][1];
+        break;
+      }
+    }
+    colorizedResults[abbreviation]['fillColor'] = color;
+    colorizedResults[abbreviation]['countryName'] = results[abbreviation]['country_name'];
+    colorizedResults[abbreviation]['production'] = results[abbreviation]['production'];
+  }
+  return colorizedResults;
+}
+
+function initializeMap(resultsWithColorFills) {
+    var map = new Datamap({ element: document.getElementById('display-map'), // where in the HTML to put the map
+                            scope: 'world', // which map?
+                            projection: 'equirectangular', // what map projection? 'mercator' is also an option
+                            data: resultsWithColorFills, // here's some data that will be used by the popup template
+                            fills: { defaultFill: '#ffffff'},
+                            geographyConfig: {
+                              //  popupOnHover: false, // You can disable the hover popup
+                                popupTemplate: hoverPopupTemplate,
+                                borderColor: '#000000',
+                                highlightFillColor: '#66ccff', // You can disable the color change on hover
+                                highlightBorderColor: '#000000'
+                                }
+                          });
+}
+
+function hoverPopupTemplate(geography, data){
+  //return 1;
+  var production = 0;
+  if (data && 'production' in data) {
+      production = data.production;
+  }
+
+  var template = '<div class="hoverpopup-map"><strong>' + geography.properties.name + '</strong><br>\n'
+                  + '<strong>Production:</strong> ' + production + '<br>\n'
+                  + '</div>';
+
+  return template;
+}
+
+function displayLegend(productionColorKey){
+  html = '<p>Legend (production in tonnes):</p>';
+  var previousStep = 0;
+  for (var i = 0; i < productionColorKey.length; i++){
+    var textColor = productionColorKey[productionColorKey.length - 1 - i][1];
+    html += '<div style="background-color:' + productionColorKey[i][1] +
+    ';color:' + textColor + ';">' + previousStep + ' - ' +
+    productionColorKey[i][0] + '</div>';
+    previousStep = productionColorKey[i][0];
+  }
+  var menuListElement = document.getElementById('legend-map');
+  if (menuListElement) {
+      menuListElement.innerHTML = html;
+  }
 }
