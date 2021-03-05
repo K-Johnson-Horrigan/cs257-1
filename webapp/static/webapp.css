@@ -5,13 +5,13 @@ h3 {
   margin-bottom: 1cm;
 }
 
-h4 {
+h4, h5 {
   text-align: center;
   margin-top: 1cm;
 }
 
 body {
-  font-family: "Lucida Console", "Courier New";
+  font-family: "Georgia";
 }
 
 main {
@@ -39,7 +39,7 @@ th {
 }
 
 #what-crop-link {
-  color: #174A1F;
+  color: #0e2f13;
 }
 
 #dropdowns {
@@ -69,12 +69,13 @@ th {
   margin-left: 1cm;
 }
 
-#display-map {
+#display-map-container {
   position: relative;
   float: center;
   height: 0;
-  width: 80%;
-  padding-bottom: 60%;
+  width: 100%;
+  padding-bottom: 50%;
+  margin-bottom: -1cm; 
 }
 
 .hoverpopup-map{

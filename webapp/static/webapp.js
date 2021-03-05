@@ -86,9 +86,7 @@ function display(displayType, url){
 
 // takes results in format {crop: [year: production, year: production], crop...}
 function displayGraph(results){
-
   var sortedResults = sortGraphResults(results);
-
   initializeGraph(sortedResults, results);
 
   // Totals table (crop and total production over time)
@@ -135,7 +133,7 @@ function makeTotalTable(sortedResults){
     var crop  = sortedResults[row][0];
     var totalProduction = sortedResults[row][1];
     if(totalProduction>0){
-      html += '<tr><th scope="row">' + crop + '</th><td>' + totalProduction + '</td>';
+      html += '<tr><th scope="row">' + crop + '</th><td>' + totalProduction.toLocaleString() + '</td>';
     }
   }
   
@@ -152,7 +150,7 @@ function makeAnnualTable(results){
   for(var crop in results){
     for(var year in results[crop]){
       if(results[crop][year] != null){
-        html += '<tr><th scope="row">' + crop + '</th><td>' + year + '</td><td>' + results[crop][year] + '</td>';
+        html += '<tr><th scope="row">' + crop + '</th><td>' + year + '</td><td>' + results[crop][year].toLocaleString() + '</td>';
       }
     }
   }
@@ -182,7 +180,7 @@ function displayTable(results){
   for(var row in sortedResults){
     var crop  = sortedResults[row][0];
     var production = sortedResults[row][1];
-    html += '<tr><th scope="row">' + crop + '</th><td>' + production + '</td>';
+    html += '<tr><th scope="row">' + crop + '</th><td>' + production.toLocaleString() + '</td>';
   }
   // finish table 
   html += '</tbody></table>';
@@ -304,6 +302,14 @@ function initializeGraph(sortedResults, results) {
 }
 
 function displayMap(results){
+  var mapElement = document.getElementById('display-map');
+  if (mapElement) {
+    // map gets inserted here
+    // so map container spacing doesn't mess up other displays
+    mapElement.innerHTML = '<div id="display-map-container"></div><br>'
+                          + '<div id="legend-map"></div>';
+  }
+  
   var colors = ['#ffffcc', '#ffff99','#d2ff4d', '#bfff00', '#99ff99', '#00e600', '#00cc00', '#009900', '#006600', '#003300'];
   //low production color -> high production color
 
@@ -313,6 +319,13 @@ function displayMap(results){
 
   initializeMap(colorizedResults);
   displayLegend(productionColorKey);
+
+  var sortedResults = sortMapResults(results);
+  var tableHTML = makeMapTable(sortedResults); 
+  var tableElement = document.getElementById('display-table');
+  if (tableElement) {
+      tableElement.innerHTML = tableHTML;
+  }
 }
 
 /*Returns a 2D array (since order matters) with of pairs of production step value and the corresponding color hex*/
@@ -359,7 +372,7 @@ function assignColorsToCountries(results, productionColorKey){
 }
 
 function initializeMap(resultsWithColorFills) {
-    var map = new Datamap({ element: document.getElementById('display-map'), // where in the HTML to put the map
+    var map = new Datamap({ element: document.getElementById('display-map-container'), // where in the HTML to put the map
                             scope: 'world', // which map?
                             projection: 'equirectangular', // what map projection? 'mercator' is also an option
                             data: resultsWithColorFills, // here's some data that will be used by the popup template
@@ -368,7 +381,7 @@ function initializeMap(resultsWithColorFills) {
                               //  popupOnHover: false, // You can disable the hover popup
                                 popupTemplate: hoverPopupTemplate,
                                 borderColor: '#000000',
-                                highlightFillColor: '#66ccff', // You can disable the color change on hover
+                                highlightFillColor: '#3D3D3D', // You can disable the color change on hover
                                 highlightBorderColor: '#000000'
                                 }
                           });
@@ -382,24 +395,60 @@ function hoverPopupTemplate(geography, data){
   }
 
   var template = '<div class="hoverpopup-map"><strong>' + geography.properties.name + '</strong><br>\n'
-                  + '<strong>Production:</strong> ' + production + '<br>\n'
+                  + '<strong>Production:</strong> ' + production.toLocaleString() + '<br>\n'
                   + '</div>';
 
   return template;
 }
 
 function displayLegend(productionColorKey){
-  html = '<p>Legend (production in tonnes):</p>';
+  html = '<h5>Legend (production in tons):</h5>';
   var previousStep = 0;
   for (var i = 0; i < productionColorKey.length; i++){
     var textColor = productionColorKey[productionColorKey.length - 1 - i][1];
-    html += '<div style="background-color:' + productionColorKey[i][1] +
-    ';color:' + textColor + ';">' + previousStep + ' - ' +
-    productionColorKey[i][0] + '</div>';
+    html += '<div style="background-color:' + productionColorKey[i][1] 
+          + ';color:' + textColor + ';">' + Math.round(previousStep).toLocaleString() + ' - ' 
+          + Math.round(productionColorKey[i][0]).toLocaleString() + '</div>';
+    
+          // this code makes the legend rows not full screen width
+          // '<div class="row"><div class="col-4"></div>' +
+          // + '<div class="col-4" style="background-color:' + productionColorKey[i][1] 
+          // + ';color:' + textColor + ';">' + Math.round(previousStep) + ' - ' 
+          // + Math.round(productionColorKey[i][0]) + '</div>'
+          // + '<div class="col-4"></div></div>';
     previousStep = productionColorKey[i][0];
   }
-  var menuListElement = document.getElementById('legend-map');
-  if (menuListElement) {
-      menuListElement.innerHTML = html;
+  var legendElement = document.getElementById('legend-map');
+  if (legendElement) {
+      legendElement.innerHTML = html;
   }
+}
+
+
+// takes results of the form {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
+// returns sorted results [[United States of America, 189900], [Australia, 5], ...]
+function sortMapResults(results){
+  var sortedResults = []; 
+  for (var country_abb in results){
+    console.log(country_abb);
+    sortedResults.push([results[country_abb]['country_name'], results[country_abb]['production']]); 
+  }
+
+  // sort the array 
+  sortedResults.sort(function(a,b){ 
+    return b[1] - a[1];
+  });
+  return sortedResults;
+}
+
+// takes sorted results [[United States of America, 189900], [Australia, 5], ...]
+function makeMapTable(sortedResults){
+  var html = '<h4>Total Production</h4>'
+            + '<table><thead><tr><th scope="col">Country</th>'
+            + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
+  for (var row of sortedResults){
+    html += '<tr><th scope="row">' + row[0] + '</th><td>' + row[1].toLocaleString() + '</td>';
+  }
+  html += '</tbody></table>';
+  return html;
 }
