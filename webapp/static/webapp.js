@@ -204,7 +204,7 @@ function displayTable(results){
   for (var i = 0; i < results.length; i++){
     var crop = results[i][0];
     var production = results[i][1];
-    html += '<tr><th scope="row">' + crop + '</th><td>' + production + '</td>';
+    html += '<tr><th scope="row">' + crop + '</th><td>' + production.toLocaleString() + '</td>';
   }
 
   // finish table
