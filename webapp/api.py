@@ -49,10 +49,12 @@ def get_graphed_production(country, crop):
 def get_tabled_production(country, year):
     query = get_table_query(country, year)
     cursor = query_database(query)
-    productions_by_crop_dict = {} # {crop: production, crop: production, ...}
-    for row in cursor: 
-        productions_by_crop_dict[row[0]] = row[1]
-    return json.dumps(productions_by_crop_dict)
+    productions_by_crop_list = [] # [[crop, production], [crop, production], ...]
+    for row in cursor:
+        crop = row[0]
+        production = row[1]
+        if production != None: productions_by_crop_list.append([crop, production])
+    return json.dumps(productions_by_crop_list)
 
 @api.route('/mapped_production/<crop>/<year>')
 def get_mapped_production(crop, year):
