@@ -7,21 +7,6 @@
  * displayGraph() in webapp.js
  */
 
-function makeAnnualTable(results){
-  var html = '<h4>Annual Production</h4>'
-                      + '<table><thead><tr><th scope="col">Crop</th>'
-                      + '<th scope="col">Year</th>'
-                      + '<th scope="col">Production (tons)</th></tr></thead><tbody>';
-  for(var crop in results){
-    for(var year in results[crop]){
-      if(results[crop][year] != null){
-        html += '<tr><th scope="row">' + crop + '</th><td>' + year + '</td><td>' + results[crop][year].toLocaleString() + '</td>';
-      }
-    }
-  }
-  html += '</tbody></table>';
-  return html;
-}
 
 // takes results in format {crop: [year: production, year: production], crop...}
 // returns something like [[crop, production], [crop, production]] sorted by production (descending)
@@ -62,52 +47,14 @@ function makeTotalTable(sortedResults){
   return html;
 }
 
-// sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
-// results in the form {crop: {year: production, year: production, …}, crop: …}
-function initializeGraph(sortedResults, results) {
-
-  // number of crops to display on graph
-  var maxCrops = 8;
-
+function buildGraph(years, cropLines) {
   // insert graph canvas
   var element = document.getElementById('display-graph');
   if (element) {
     // chartjs graph gets inserted here
     element.innerHTML = '<canvas id="crop-graph"></canvas>';
   }
-
-  // get top crops to graph
-  var topResults = []; // a list of crops
-  // if it's a one-crop query
-  if (Object.keys(results).length==1){
-    maxCrops = 1;
-  }
-  for (var i = 0; i < maxCrops; i++){
-    topResults.push(sortedResults[i][0]);
-  }
-
-  var colors = ['red', 'orange', 'yellowgreen', 'green', 'darkgreen', 'blue', 'purple', '#F7BFB4'];
-
-  // get years for x-axis
-  var years = [];
-  for (var year in results[topResults[0]]){ //loop though first crop
-    years.push(year);
-  }
-
-  // "datasets" are the lines
-  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [production, production, ...], fill: false}
-  var cropLines = [];
-  // results = {crop: {year: production, year: production, …}, crop: …}
-  for (var index in topResults){
-    crop = topResults[index];
-    var productionData = [];
-    for (var year in results[crop]){
-      productionData.push(results[crop][year])
-    }
-    var line = {label: crop, backgroundColor: colors[index], borderColor: colors[index], data: productionData, fill: false}
-    cropLines.push(line)
-  }
-
+  
   var ctx = document.getElementById('crop-graph').getContext('2d');
   var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -139,3 +86,74 @@ function initializeGraph(sortedResults, results) {
     }
   });
 }
+
+function buildGraphNoResults(){
+  var element = document.getElementById('display-graph');
+  if (element) {
+    // chartjs graph gets inserted here
+    element.innerHTML = '<p>Looks like no production was reported!</p>';
+  }
+}
+
+// sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
+// results in the form {crop: {year: production, year: production, …}, crop: …}
+function initializeGraph(sortedResults, results) {
+
+  // number of crops to display on graph
+  var maxCrops = 8;
+
+  // get top crops to graph
+  var topResults = []; // a list of crops
+  // if it's a one-crop query
+  if (Object.keys(results).length==1){
+    maxCrops = 1;
+  }
+  for (var i = 0; i < maxCrops; i++){
+    topResults.push(sortedResults[i][0]);
+  }
+
+  var colors = ['red', 'orange', 'yellowgreen', 'green', 'darkgreen', 'blue', 'purple', '#F7BFB4'];
+
+  // get years for x-axis
+  var years = [];
+  for (var year in results[topResults[0]]){ //loop though first crop
+    years.push(year);
+  }
+
+  
+  var allNull = true; 
+
+  // "datasets" are the lines
+  // the things in datasets are: {label: corn, backgroundColor: a color, borderColor: a color, data: [production, production, ...], fill: false}
+  var cropLines = [];
+  // results = {crop: {year: production, year: production, …}, crop: …}
+  for (var index in topResults){
+    crop = topResults[index];
+    var productionData = [];
+    for (var year in results[crop]){
+      production = results[crop][year];
+      productionData.push(production);
+      //handle null case 
+      if (production != null){
+        allNull = false; 
+      }
+    }
+    // put all the information together for a line 
+    var line = {label: crop, backgroundColor: colors[index], borderColor: colors[index], data: productionData, fill: false}
+    // add to list of all lines 
+    cropLines.push(line)
+  }
+  if (allNull) {
+    buildGraphNoResults();
+  } else {
+    buildGraph(years, cropLines);
+    // Totals table (crop and total production over time)
+    var html = makeTotalTable(sortedResults);
+    var element = document.getElementById('display-table');
+    if (element) {
+      element.innerHTML = html;
+    }
+  }
+  // buildGraph(years, cropLines); 
+}
+

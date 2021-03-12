@@ -169,14 +169,6 @@ function displayGraph(results){
   // takes results in format {crop: [year: production, year: production], crop...}
   var sortedResults = sortGraphResults(results);
   initializeGraph(sortedResults, results);
-
-  // Totals table (crop and total production over time)
-  var html = makeTotalTable(sortedResults);
-
-  var element = document.getElementById('display-table');
-  if (element) {
-    element.innerHTML = html;
-  }
 }
 
 /**
@@ -217,7 +209,7 @@ function displaySingle(results){
     html = '<p> This hyper-specific request found: ' + results + ' tons.</p>';
   }
   else{
-    html = '<p>Looks like nothing was produced!</p>';
+    html = '<p>Looks like no production was reported!</p>';
   }
   var menuListElement = document.getElementById('display-single');
   if (menuListElement) {
