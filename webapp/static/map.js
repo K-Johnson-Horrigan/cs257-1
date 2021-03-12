@@ -3,6 +3,11 @@
 //Feb-March 2021
 
 /**
+ * This file describes supplementary methods called by the function
+ * displayMap() in webapp.js
+ */
+
+/**
  * Returns a 2D array (since order matters) of pairs of
  * production step value and the corresponding color hex
  * @param  {int}  highestProduction the highest production value of the displayed countries
