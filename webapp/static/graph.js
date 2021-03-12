@@ -1,4 +1,11 @@
+//Authors: Antonia Ritter and Kai Johnson
+//CS257
+//Feb-March 2021
 
+/**
+ * This file describes supplementary methods called by the function
+ * displayGraph() in webapp.js
+ */
 
 function makeAnnualTable(results){
   var html = '<h4>Annual Production</h4>'
