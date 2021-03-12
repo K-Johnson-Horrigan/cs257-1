@@ -3,7 +3,7 @@
 //Feb-March 2021
 
 /**
- * This file describes suplementary methods called by the function
+ * This file describes supplementary methods called by the function
  * buildStartingPage() in webapp.js
  */
 
