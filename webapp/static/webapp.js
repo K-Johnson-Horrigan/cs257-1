@@ -118,7 +118,7 @@ function display(country, crop, year){
   .then(function(results) {
     if (country === 'All countries') { displayMap(results); }
     else if (year === 'All years') { displayGraph(results); }
-    else if (crop === 'All crops') { displayTable(results); }
+    else if (crop === 'All crops') { displayChart(results); }
     else { displaySingle(results); }
   })
   .catch(function(error) {
@@ -172,88 +172,12 @@ function displayGraph(results){
 }
 
 /**
- * displays a table of crops and their productions, sorted by production (descending)
+ * displays a bar chart and table of crops and their productions, sorted by production (descending)
  * @param  {list} results 2D list of crop-production pairs, sorted by production (descending)
                           eg [['Maize', 201000], ...]
  */
-function displayTable(results){
-  buildChart(results); 
-  var html = '<h4>Crop Production</h4><table>'
-            + '<thead><tr><th scope="col">Crop</th>'
-            + '<th scope="col">Production (tons)</th>'
-            + '</tr></thead><tbody>';
-
-  //add rows
-  for (var i = 0; i < results.length; i++){
-    var crop = results[i][0];
-    var production = results[i][1];
-    html += '<tr><th scope="row">' + crop + '</th><td>' + production.toLocaleString() + '</td>';
-  }
-
-  // finish table
-  html += '</tbody></table>';
-
-  // insert into html page
-  var element = document.getElementById('display-table');
-  if (element) {
-    element.innerHTML = html;
-  }
-}
-
-function buildChart(results){
-    // insert graph canvas
-    var element = document.getElementById('display-graph');
-    if (element) {
-      // chartjs graph gets inserted here
-      element.innerHTML = '<canvas id="crop-chart"></canvas>';
-    }
-
-    var colors = ['red', '#FF6D00', 'orange', 'yellowgreen', '#2DD311', 'darkgreen', 'blue', '#8700FF', 'purple', '#F7BFB4'];
-
-    // number of crops to display 
-    var maxCrops = 10; 
-
-    var productionData = []
-    var cropLabels = [] 
-    for (var i = 0; i < maxCrops; i++){
-      var crop = results[i][0];
-      var production = results[i][1]; 
-      cropLabels.push(crop); 
-      productionData.push(production);
-    }
-
-    var ctx = document.getElementById('crop-chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-    type: 'horizontalBar',
-    data: {
-        labels: cropLabels,
-        datasets: [{
-            data: productionData,
-            backgroundColor: colors,
-            borderColor: colors,
-            borderWidth: 1
-        }]
-    },
-    options: {
-      scales: {
-        xAxes: [{
-          display: true,
-          scaleLabel: {display: true, labelString: 'Production (tons)'},
-          ticks: {
-            beginAtZero: true
-          }
-        }],
-        yAxes: [{
-          display: true,
-          scaleLabel: {display: true, labelString: 'Crop'}
-        }]
-      },
-      legend: {
-        display: false, 
-        position: 'right'
-      }
-    }
-  });
+function displayChart(results){
+  initializeChart(results); // this also makes the table if results aren't null 
 }
 
 /**
@@ -263,13 +187,15 @@ function buildChart(results){
 function displaySingle(results){
   var html = '';
   if (results > 0){
-    html = '<p> This hyper-specific request found: ' + results + ' tons.</p>';
+    html = '<p id="display-text"> This hyper-specific request found: ' + results + ' tons.</p>';
+    var menuListElement = document.getElementById('display-single');
+    if (menuListElement) {
+      menuListElement.innerHTML = html;
+    }
   }
   else{
-    html = '<p>Looks like no production was reported!</p>';
-  }
-  var menuListElement = document.getElementById('display-single');
-  if (menuListElement) {
-    menuListElement.innerHTML = html;
+    noResultsMessage(); 
   }
 }
+
+

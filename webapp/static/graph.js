@@ -44,8 +44,12 @@ function makeTotalTable(sortedResults){
   }
 
   html += '</tbody></table>';
-  return html;
+  var element = document.getElementById('display-table');
+  if (element) {
+    element.innerHTML = html;
+  }
 }
+
 
 function buildGraph(years, cropLines) {
   // insert graph canvas
@@ -90,13 +94,6 @@ function buildGraph(years, cropLines) {
   });
 }
 
-function buildGraphNoResults(){
-  var element = document.getElementById('display-graph');
-  if (element) {
-    // chartjs graph gets inserted here
-    element.innerHTML = '<p>Looks like no production was reported!</p>';
-  }
-}
 
 // sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
 // results in the form {crop: {year: production, year: production, …}, crop: …}
@@ -147,16 +144,10 @@ function initializeGraph(sortedResults, results) {
     cropLines.push(line)
   }
   if (allNull) {
-    buildGraphNoResults();
+    noResultsMessage();
   } else {
     buildGraph(years, cropLines);
-    // Totals table (crop and total production over time)
-    var html = makeTotalTable(sortedResults);
-    var element = document.getElementById('display-table');
-    if (element) {
-      element.innerHTML = html;
-    }
+    makeTotalTable(sortedResults);
   }
-  // buildGraph(years, cropLines); 
 }
 

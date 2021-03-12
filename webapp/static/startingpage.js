@@ -69,3 +69,15 @@ function chooseRandomCountryCropYear(countriesCropsYears){
   }
   return randomElements;
 }
+
+
+/**
+ * Displays a message that there was no production for the selected combination. 
+ */
+function noResultsMessage(){
+  var element = document.getElementById('display-single');
+  if (element) {
+    // chartjs graph gets inserted here
+    element.innerHTML = '<p id="display-text">No production was reported!</p>';
+  }
+}

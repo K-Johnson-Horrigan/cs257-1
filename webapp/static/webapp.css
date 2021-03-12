@@ -50,6 +50,11 @@ th {
   width: 3cm;
 }
 
+#display-text {
+  color:darkgreen;
+  font-size: 0.6cm;
+}
+
 #display-graph {
   width: 90%;
   margin-left: auto;
