@@ -79,7 +79,10 @@ function buildGraph(years, cropLines) {
         }],
         yAxes: [{
           display: true,
-          scaleLabel: {display: true, labelString: 'Production (tons)'}
+          scaleLabel: {display: true, labelString: 'Production (tons)'},
+          ticks: {
+            beginAtZero: true
+          }
         }]
       },
       legend: {display: true, position: 'right'}
