@@ -2,99 +2,94 @@
 //CS257
 //Feb-March 2021
 
-
 window.onload = initialize;
 
-/*Upon loading the page the dropdown menus are populated and a button is displayed*/
+/*A randomized first display is shown and the user can select and modify the display with a button press*/
 function initialize() {
-    loadMenus();
-    var button = document.getElementById('display_button');
-    button.onclick = onDisplayButtonPress;
+  buildStartingPage();
+  var button = document.getElementById('display-button');
+  button.onclick = onDisplayButtonPress;//onDisplayButtonPress;
 }
 
-/*The dropdown menus are populated by three lists received from an api requests, '/menus/' */
-function loadMenus() {
+/**
+ * NOTE:
+ * functions buildStartingPage(), displayMap(), and displayGraph()
+ * draw upon suplementary methods described in
+ * startingpage.js, map.js, and graph.js respectively
+ */
+
+/**
+ * builds the starting homescreen page:
+ * calls for the dropdowns to be populated,
+ * calls for a random selection of dropdown values
+ * calls for the display of the random selection of dropdown values
+ */
+function buildStartingPage(){
   var url = getAPIBaseURL() + '/menus/';
   fetch(url, {method: 'get'})
   .then((response) => response.json())
-  .then(function(menus) {
-    var dropdowns = ['countries', 'crops', 'years'];
-    for (var i = 0; i < dropdowns.length; i++){
-      var dropdown = dropdowns[i];
-      var html = '';
-      var elements = menus[0][dropdown];
-      html += '<select id="' + dropdown + '_dropdown">';
-      for(var j = 0; j < elements.length; j++){
-        html += '<option value="' + elements[j] + '">' + elements[j] + '</option>';
-      }
-      html += '</select>';
-      var menuElement = document.getElementById(dropdown + '_col');
-      if (menuElement) {
-          menuElement.innerHTML = html;
-      }
-    }
+  .then(function(countriesCropsYears) {
+    buildMenus(countriesCropsYears);
+
+    var randomCountryCropYear = chooseRandomCountryCropYear(countriesCropsYears);
+    menuSelectRandomCountryCropYear(randomCountryCropYear);
+
+    var country = randomCountryCropYear["countries"];
+    var crop = randomCountryCropYear["crops"];
+    var year = randomCountryCropYear["years"];
+    display(country, crop, year);
   })
   .catch(function(error) {
-      console.log(error);
+    console.log(error);
   });
 }
 
-/*If the 'display' button is pressed,
-  any pre-existing display content is removed,
-  the dropdown menu selections are read,
-  the display type (map, graph, etc) is determined based on the dropdown selections,
-  the url for the api request is retrieved,
-  and then the information the user requested is displayed.*/
+/**
+ * If the 'display' button is pressed,
+ * any pre-existing display content is removed,
+ * the dropdown menu selections are read,
+ * and the information selected by dropdowns is displayed.
+ */
 function onDisplayButtonPress(){
-    wipeScreenClean();
+  wipeScreenClean();
 
-    var country = document.getElementById('countries_dropdown').value;
-    var crop = document.getElementById('crops_dropdown').value;
-    var year = document.getElementById('years_dropdown').value;
+  var country = document.getElementById('countries-dropdown').value;
+  var crop = document.getElementById('crops-dropdown').value;
+  var year = document.getElementById('years-dropdown').value;
 
-    var displayType = getDisplayType(country, crop, year);
-    var url = getURL(displayType, country, crop, year);
-
-    display(displayType, url);
+  display(country, crop, year);
 }
 
 /*All display type containers are set to empty.*/
 function wipeScreenClean(){
-  document.getElementById('display-single').innerHTML = '';
   document.getElementById('display-map').innerHTML = '';
   document.getElementById('display-graph').innerHTML = '';
   document.getElementById('display-table').innerHTML = '';
-}
-
-/**
- * returns the display type depending upon the dropdown selections
- * @param  {string} country the 'countries' dropdown selection
- * @param  {string} crop    the 'crops' dropdown selection
- * @param  {string} year    the 'years' dropdown selection
- * @return {string}         the display type (eg map, graph, etc.)
- */
-function getDisplayType(country, crop, year){
-  if (country === 'All countries') { return 'map'; }
-  else if (year === 'All years') { return 'graph'; }
-  else if (crop === 'All crops') { return 'table'; }
-  else { return 'single'; }
-  return '';
+  document.getElementById('display-single').innerHTML = '';
 }
 
 /**
  * returns the url for the desired data
- * @param  {string} displayType the display type (eg map, graph, etc.)
  * @param  {string} country     the 'countries' dropdown selection
  * @param  {string} crop        the 'crops' dropdown selection
  * @param  {string} year        the 'years' dropdown selection
  * @return {string}             the url
  */
-function getURL(displayType, country, crop, year){
-  url = getAPIBaseURL();
-  if (displayType === 'map') { url += '/mapped_production/' + crop + '/' + year; }
-  else if (displayType === 'graph') { url += '/graphed_production/' + country + '/' + crop; }
-  else if (displayType === 'table') { url += '/tabled_production/' + country + '/' + year; }
-  else if (displayType === 'single') { url += '/single_production/' + country + '/' + crop + '/' + year; }
+function getURL(country, crop, year){
+  var url = getAPIBaseURL();
+
+  if (country === 'All countries') {
+    url += '/mapped_production/' + crop + '/' + year;
+  }
+  else if (year === 'All years') {
+    url += '/graphed_production/' + country + '/' + crop;
+  }
+  else if (crop === 'All crops') {
+    url += '/tabled_production/' + country + '/' + year;
+  }
+  else {
+    url += '/single_production/' + country + '/' + crop + '/' + year;
+  }
   return url;
 }
 
@@ -103,34 +98,33 @@ function getURL(displayType, country, crop, year){
  * @return {string} the basic api url
  */
 function getAPIBaseURL() {
-    var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
-    return baseURL;
+  var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
+  return baseURL;
 }
 
 /**
- * retrieves the results of the url from the api,
+ * gets the appropriate url for the passed parameters,
+ * retrieves the results from the API,
  * then passes them to the appropriate display method
- * @param  {string} displayType the display type (eg map, graph, etc.)
- * @param  {string} url         the specific url for the particular set of country/crop/year selections
+ * @param  {string} country the 'countries' dropdown selection
+ * @param  {string} crop    the 'crops' dropdown selection
+ * @param  {string} year    the 'years' dropdown selection
  */
-function display(displayType, url){
+function display(country, crop, year){
+  var url = getURL(country, crop, year);
+
   fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results) {
-      if (displayType === 'map') { displayMap(results); }
-      else if (displayType === 'graph') { displayGraph(results); }
-      else if (displayType === 'table') { displayTable(results); }
-      else if (displayType === 'single') { displaySingle(results); }
+    if (country === 'All countries') { displayMap(results); }
+    else if (year === 'All years') { displayGraph(results); }
+    else if (crop === 'All crops') { displayTable(results); }
+    else { displaySingle(results); }
   })
   .catch(function(error) {
       console.log(error);
   });
 }
-
-
-/*displayMap() and displayGraph() both take several suplementary methods
-that are described in map.js and graph.js respectively */
-
 
 /**
  * displays a world map with each country shaded acording to the amount of production
@@ -141,8 +135,7 @@ that are described in map.js and graph.js respectively */
 function displayMap(results){
   var mapElement = document.getElementById('display-map');
   if (mapElement) {
-    // map gets inserted here
-    // so map container spacing doesn't mess up other displays
+    // map gets inserted here so that styling doesn't mess up other displays
     mapElement.innerHTML = '<div id="display-map-container"></div><br>'
                           + '<div id="legend-map"></div>';
   }
@@ -161,7 +154,7 @@ function displayMap(results){
   var tableHTML = makeMapTable(sortedResults);
   var tableElement = document.getElementById('display-table');
   if (tableElement) {
-      tableElement.innerHTML = tableHTML;
+    tableElement.innerHTML = tableHTML;
   }
 }
 
@@ -180,12 +173,9 @@ function displayGraph(results){
   // Totals table (crop and total production over time)
   var html = makeTotalTable(sortedResults);
 
-  // Annual table (crop, year, and production that year) IT'S A REALLY LONG TABLE
-  //html += makeAnnualTable(results)
-
   var element = document.getElementById('display-table');
   if (element) {
-      element.innerHTML = html;
+    element.innerHTML = html;
   }
 }
 
@@ -213,7 +203,7 @@ function displayTable(results){
   // insert into html page
   var element = document.getElementById('display-table');
   if (element) {
-      element.innerHTML = html;
+    element.innerHTML = html;
   }
 }
 
@@ -231,6 +221,6 @@ function displaySingle(results){
   }
   var menuListElement = document.getElementById('display-single');
   if (menuListElement) {
-      menuListElement.innerHTML = html;
+    menuListElement.innerHTML = html;
   }
 }
