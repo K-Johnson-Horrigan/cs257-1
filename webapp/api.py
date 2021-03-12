@@ -1,3 +1,5 @@
+#Authors: Antonia Ritter and Kai Johnson
+
 import flask
 import json
 import sys
@@ -11,32 +13,32 @@ api = flask.Blueprint('api', __name__)
 def get_menus():
     menus = {'countries' : [], 'crops' : [], 'years' : []}
     for key in menus.keys():
-        query = get_menus_query(key)
-        cursor = query_database(query)
+        query_text, search_clause = get_menus_query(key)
+        cursor = query_database(query_text, search_clause)
         menu_list = convert_cursor_to_list(cursor)
         menu_list.insert(0, ('All ' + key))
         menus[key] = menu_list
-    return json.dumps([menus])
+    return json.dumps(menus)
 
 @api.route('/single_production/<country>/<crop>/<year>')
 def get_single_production(country, crop, year):
-    query = get_single_query(country, crop, year)
-    cursor = query_database(query)
+    query_text, search_clause = get_single_query(country, crop, year)
+    cursor = query_database(query_text, search_clause)
     for row in cursor:
         production_number = row
     return json.dumps(production_number)
 
 @api.route('/graphed_production/<country>/<crop>')
 def get_graphed_production(country, crop):
-    query = get_graph_query(country, crop)
-    cursor = query_database(query)
-    crops_set = set() 
+    query_text, search_clause = get_graph_query(country, crop)
+    cursor = query_database(query_text, search_clause)
+    crops_set = set()
     cursor_table = []
-    for row in cursor: # row is crop, year, production 
+    for row in cursor: # row is crop, year, production
         cursor_table.append(row)
         crops_set.add(row[0])
     productions_by_year_dict = {} # {crop: {year: production, year: production, …}, crop: …}
-    # create the subdict for each crop individually 
+    # create the subdict for each crop individually
     for crop in crops_set:
         one_crop_dict = {}
         for row in cursor_table:
@@ -47,8 +49,8 @@ def get_graphed_production(country, crop):
 
 @api.route('/tabled_production/<country>/<year>')
 def get_tabled_production(country, year):
-    query = get_table_query(country, year)
-    cursor = query_database(query)
+    query_text, search_clause = get_table_query(country, year)
+    cursor = query_database(query_text, search_clause)
     productions_by_crop_list = [] # [[crop, production], [crop, production], ...]
     for row in cursor:
         crop = row[0]
@@ -58,15 +60,15 @@ def get_tabled_production(country, year):
 
 @api.route('/mapped_production/<crop>/<year>')
 def get_mapped_production(crop, year):
-    query = get_map_query(crop, year)
-    cursor = query_database(query)
+    query_text, search_clause = get_map_query(crop, year)
+    cursor = query_database(query_text, search_clause)
     # format: {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
     productions_by_country_dict = {}
-    for row in cursor: # row is country, abbreviation, production 
+    for row in cursor: # row is country, abbreviation, production
         country_name = row[0]
         abbreviation = row[1]
         production = row[2]
-        if (abbreviation != None and production != None):
+        if abbreviation != None and production != None:
             productions_by_country_dict[abbreviation] = {'production': int(production), 'country_name': country_name}
     return json.dumps(productions_by_country_dict)
 
@@ -82,10 +84,10 @@ def convert_cursor_to_list(cursor):
 
 
 def get_menus_query(key):
-    if key == 'countries': query = '''SELECT country FROM countries ORDER BY country'''
-    elif key == 'crops': query = '''SELECT crop FROM crops ORDER BY crop'''
-    elif key == 'years': query = '''SELECT DISTINCT year FROM country_crop ORDER BY year DESC'''
-    return [query]
+    if key == 'countries': query_text = '''SELECT country FROM countries ORDER BY country'''
+    elif key == 'crops': query_text = '''SELECT crop FROM crops ORDER BY crop'''
+    elif key == 'years': query_text = '''SELECT DISTINCT year FROM country_crop ORDER BY year DESC'''
+    return query_text, None
 
 
 def get_map_query(crop, year):
@@ -125,7 +127,7 @@ def get_map_query(crop, year):
                         GROUP BY countries.country, countries.abbreviation \
                         ORDER BY production DESC;'''
         search_clause = ()
-    return [query_text, search_clause]
+    return query_text, search_clause
 
 
 def get_single_query(country, crop, year):
@@ -137,7 +139,7 @@ def get_single_query(country, crop, year):
                     AND crops.crop = %s \
                     AND country_crop.year = %s;'''
     search_clause = (country, crop, year)
-    return [query_text, search_clause]
+    return query_text, search_clause
 
 
 def get_table_query(country, year):
@@ -148,7 +150,7 @@ def get_table_query(country, year):
                     AND countries.country = %s
                     AND country_crop.year = %s ORDER BY country_crop.production DESC;'''
     search_clause = (country, year)
-    return [query_text, search_clause]
+    return query_text, search_clause
 
 
 def get_graph_query(country, crop):
@@ -167,18 +169,19 @@ def get_graph_query(country, crop):
                         AND countries.id = country_crop.country_id \
                         AND countries.country = %s;'''
         search_clause = (country,)
-    return [query_text, search_clause]
+    return query_text, search_clause
 
 
-def query_database(query):
+def query_database(query_text, search_clause):
     '''Executes the passed query and returns the resulting cursor or prints an error message and returns an empty string if the query failed.'''
     connection = get_database_connection()
     cursor = ""
     try:
         cursor = connection.cursor()
-        if len(query)==2:
-            cursor.execute(query[0], query[1])
-        else: cursor.execute(query[0])
+        if search_clause:
+            cursor.execute(query_text, search_clause)
+        else:
+            cursor.execute(query_text)
     except Exception as e:
         print(e)
     return cursor
