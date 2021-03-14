@@ -99,7 +99,7 @@ def convert_cursor_to_list(cursor):
 
 
 def get_menus_query(key):
-    '''Returns query text and search clause tuple (there isn't one) for get_menus''
+    '''Returns query text and search clause tuple (there isn't one) for get_menus'''
     if key == 'countries': query_text = '''SELECT country FROM countries ORDER BY country'''
     elif key == 'crops': query_text = '''SELECT crop FROM crops ORDER BY crop'''
     elif key == 'years': query_text = '''SELECT DISTINCT year FROM country_crop ORDER BY year DESC'''
