@@ -77,7 +77,6 @@ function initializeMap(resultsWithColorFills) {
                             data: resultsWithColorFills, // here's some data that will be used by the popup template
                             fills: { defaultFill: '#ffffff'},
                             geographyConfig: {
-                              //  popupOnHover: false, // You can disable the hover popup
                                 popupTemplate: hoverPopupTemplate,
                                 borderColor: '#000000',
                                 highlightFillColor: false, // You can disable the color change on hover
