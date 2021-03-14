@@ -20,16 +20,32 @@
 <body>
     {% include 'header.html' %}
 
-    <main class="container-fluid">
+    <main id='about-text' class="container-fluid">
     <h3>About Agriculture Aggregate</h3>
 
-    <p>CS257 Winter 2021 Final Project by Kai Johnson and Antonia Ritter</p>
+    <p>CS257 Winter 2021 Final Project, Kai Johnson and Antonia Ritter</p>
 
-    <p>The data comes from the <a href="http://www.fao.org/faostat/en/#data/QC">Food and Agriculture Organization of the United Nations</a>.</p>
+    <br>
+    
+    <div id="instructions">
+    
+        <p><b>What gets displayed?</b></p>
+    <p>If <em>All countries</em> is selected, a <b>map</b> is displayed. If not...</p>
+    <p>If <em>All years</em> is selected, a <b>line graph</b> is diplayed. If not...</p>
+    <p>If <em>All crops</em> is selected, a <b>bar chart</b> is displayed. If not... </p>
+    <p>a <b>single production number</b> is displayed.</p>
+   
+    </div>
+
+    <p><b>For example:</b></p>
+    <p><em>All countries</em>, <em>All crops</em>, and <em>2012</em> shows a map of total crop production in 2012.</p>
+    <p><em>Canada</em>, <em>All crops</em>, and <em>2012</em> shows a bar chart of top crops produced in Canada in 2012.</p>
 
     <br>
 
-    <p>Notes:</p>
+    <p><b>Notes:</b></p>
+
+    <p>The data comes from the <a href="http://www.fao.org/faostat/en/#data/QC">Food and Agriculture Organization of the United Nations</a>.</p>
 
     <p>
     The crops shown in the multi-line graph (displayed when one country, all crops, and all years is selected)

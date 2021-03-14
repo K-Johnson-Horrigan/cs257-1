@@ -4,9 +4,9 @@
 
 /**
  * NOTE:
- * functions buildStartingPage(), displayMap(), and displayGraph()
+ * functions buildStartingPage(), displayMap(), displayGraph(), displayChart()
  * draw upon suplementary methods described in
- * startingpage.js, map.js, and graph.js respectively
+ * startingpage.js, map.js, graph.js, chart.js respectively
  */
 
 
@@ -40,6 +40,7 @@ function buildStartingPage(){
     var crop = randomCountryCropYear["crops"];
     var year = randomCountryCropYear["years"];
     display(country, crop, year);
+    startupMessage(); 
   })
   .catch(function(error) {
     console.log(error);
@@ -66,6 +67,8 @@ function onDisplayButtonPress(){
 
 /*All display type containers are set to empty.*/
 function wipeScreenClean(){
+  document.getElementById('startup').innerHTML = '';
+  document.getElementById('title').innerHTML = '';
   document.getElementById('display-map').innerHTML = '';
   document.getElementById('display-graph').innerHTML = '';
   document.getElementById('display-table').innerHTML = '';
@@ -118,7 +121,7 @@ function getAPIBaseURL() {
  * @param  {string} year    the 'years' dropdown selection
  */
 function display(country, crop, year){
-  var url = getURL(country, crop, year);
+  var url = getURL(country, crop, year); 
 
   fetch(url, {method: 'get'})
   .then((response) => response.json())
@@ -131,6 +134,41 @@ function display(country, crop, year){
   .catch(function(error) {
       console.log(error);
   });
+
+  makeTitle(country, crop, year);
+}
+
+
+/** Inserts a page title depending on dropdown selections 
+ * @param  {string} country the 'countries' dropdown selection
+ * @param  {string} crop    the 'crops' dropdown selection
+ * @param  {string} year    the 'years' dropdown selection
+*/
+function makeTitle(country, crop, year){
+
+  var cropName = '';
+  if (crop != 'All crops'){
+    cropName = ' of <i>' + crop + '</i>'; 
+  }
+
+  var yearName = '';
+  if (year == 'All years'){
+    yearName = '<i> 1961-2019 </i>';
+  } else {
+    yearName = '<i>' + year + '</i>'; 
+  }
+
+  var html = '';
+  if (country == 'All countries'){
+    html = '<p id="display-title">' + yearName + ' World Production' + cropName + '</p>';
+  } else {
+    html = '<p id="display-title">' + yearName + ' Production in <i>' + country + '</i>' + cropName + '</p>';
+  }
+
+  var element = document.getElementById('title');
+    if (element) {
+        element.innerHTML = html; 
+    }
 }
 
 

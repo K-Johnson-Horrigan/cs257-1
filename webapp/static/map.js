@@ -10,7 +10,7 @@
 /**
  * Returns a 2D array (since order matters) of pairs of
  * production step value and the corresponding color hex
- * @param  {int}  highestProduction the highest production value of the displayed countries
+ * @param  {int}  highestProduction  the highest production value of the displayed countries
  * @param  {array} colors            an array of hex color values
  * @return {array}                   a 2D array with pairs step value and corresponding color
  */
@@ -80,7 +80,7 @@ function initializeMap(resultsWithColorFills) {
                               //  popupOnHover: false, // You can disable the hover popup
                                 popupTemplate: hoverPopupTemplate,
                                 borderColor: '#000000',
-                                highlightFillColor: '#3D3D3D', // You can disable the color change on hover
+                                highlightFillColor: false, // You can disable the color change on hover
                                 highlightBorderColor: '#000000'
                                 }
                           });
@@ -121,13 +121,6 @@ function displayLegend(productionColorKey){
     html += '<div style="background-color:' + backgroundColor
           + ';color:' + textColor + ';">' + Math.round(previousStep).toLocaleString() + ' - '
           + Math.round(step).toLocaleString() + '</div>';
-
-          // this code makes the legend rows not full screen width
-          // '<div class="row"><div class="col-4"></div>' +
-          // + '<div class="col-4" style="background-color:' + productionColorKey[i][1]
-          // + ';color:' + textColor + ';">' + Math.round(previousStep) + ' - '
-          // + Math.round(productionColorKey[i][0]) + '</div>'
-          // + '<div class="col-4"></div></div>';
     previousStep = productionColorKey[i][0];
   }
   var legendElement = document.getElementById('legend-map');

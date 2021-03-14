@@ -28,6 +28,17 @@ function buildMenus(countriesCropsYears){
   }
 }
 
+
+/**Inserts startup message into html */
+function startupMessage(){
+  var html = '<p id="display-text">Here\'s a randomized selection to get you started. Now use the dropdown menus to select your own!</p> <p> Visit the <a href="about.html">about</a> page for details about display features.</p>'
+  var element = document.getElementById('startup');
+    if (element) {
+      element.innerHTML = html;
+    }
+}
+
+
 /**
  * Sets the dropdown selections to the randomized dropdown values
  * @param {dictionary} randomCountryCropYear a dictionary with keys "countries", "crops", and "years" with

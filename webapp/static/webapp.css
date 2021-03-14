@@ -27,15 +27,27 @@ button {
   color: green;
 }
 
-table, th, td {
+table {
   margin-left: auto;
   margin-right: auto;
+}
+
+th, td {
   border: 1px solid black;
   padding: 5px;
 }
 
+.instruction-table {
+  border: none; 
+}
+
 th {
   text-align: left;
+}
+
+#about-text {
+  margin-left: 1cm; 
+  margin-right: 1cm; 
 }
 
 #dropdowns {
@@ -52,6 +64,19 @@ th {
 
 #years-dropdown {
   width: 3cm;
+}
+
+#startup {
+  margin-bottom: 1cm;
+}
+
+#display-title {
+  font-size: 0.8cm; 
+}
+
+i {
+  color: darkgreen; 
+  font-style: normal;
 }
 
 #display-text {
@@ -78,6 +103,10 @@ th {
   padding-bottom: 50%;
   margin-bottom: -1cm; 
   background: #e6ffff;
+}
+
+#instructions {
+  text-align: center;
 }
 
 .hoverpopup-map{
