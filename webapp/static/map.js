@@ -1,6 +1,6 @@
-//Authors: Antonia Ritter and Kai Johnson
-//CS257
-//Feb-March 2021
+// Authors: Antonia Ritter and Kai Johnson
+// CS257
+// Feb-March 2021
 
 /**
  * This file describes supplementary methods called by the function

@@ -1,4 +1,7 @@
-#Authors: Antonia Ritter and Kai Johnson
+# Authors: Antonia Ritter and Kai Johnson
+# Adapted from app.py in tiny-webapp
+# CS257 
+# Feb-Mar 2021 
 
 import sys
 import argparse

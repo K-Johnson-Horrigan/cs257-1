@@ -2,6 +2,14 @@
 //CS257
 //Feb-March 2021
 
+/**
+ * NOTE:
+ * functions buildStartingPage(), displayMap(), and displayGraph()
+ * draw upon suplementary methods described in
+ * startingpage.js, map.js, and graph.js respectively
+ */
+
+
 window.onload = initialize;
 
 /*A randomized first display is shown and the user can select and modify the display with a button press*/
@@ -11,12 +19,6 @@ function initialize() {
   button.onclick = onDisplayButtonPress;//onDisplayButtonPress;
 }
 
-/**
- * NOTE:
- * functions buildStartingPage(), displayMap(), and displayGraph()
- * draw upon suplementary methods described in
- * startingpage.js, map.js, and graph.js respectively
- */
 
 /**
  * builds the starting homescreen page:
@@ -44,6 +46,7 @@ function buildStartingPage(){
   });
 }
 
+
 /**
  * If the 'display' button is pressed,
  * any pre-existing display content is removed,
@@ -60,6 +63,7 @@ function onDisplayButtonPress(){
   display(country, crop, year);
 }
 
+
 /*All display type containers are set to empty.*/
 function wipeScreenClean(){
   document.getElementById('display-map').innerHTML = '';
@@ -67,6 +71,7 @@ function wipeScreenClean(){
   document.getElementById('display-table').innerHTML = '';
   document.getElementById('display-single').innerHTML = '';
 }
+
 
 /**
  * returns the url for the desired data
@@ -93,6 +98,7 @@ function getURL(country, crop, year){
   return url;
 }
 
+
 /**
  * returns basic api url
  * @return {string} the basic api url
@@ -101,6 +107,7 @@ function getAPIBaseURL() {
   var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
   return baseURL;
 }
+
 
 /**
  * gets the appropriate url for the passed parameters,
@@ -125,6 +132,7 @@ function display(country, crop, year){
       console.log(error);
   });
 }
+
 
 /**
  * displays a world map with each country shaded acording to the amount of production
@@ -158,6 +166,7 @@ function displayMap(results){
   }
 }
 
+
 /**
  * displays a line graph with each line representing a crop over time,
  * x-axis and time (in years) and y-axis as production (in tonnes)
@@ -171,14 +180,17 @@ function displayGraph(results){
   initializeGraph(sortedResults, results);
 }
 
+
 /**
  * displays a bar chart and table of crops and their productions, sorted by production (descending)
+ * Note: this option previously only had a table, so the API reference is still 'tabled_production' 
  * @param  {list} results 2D list of crop-production pairs, sorted by production (descending)
                           eg [['Maize', 201000], ...]
  */
 function displayChart(results){
   initializeChart(results); // this also makes the table if results aren't null 
 }
+
 
 /**
  * displays the tonnes produced or a message if none was produced

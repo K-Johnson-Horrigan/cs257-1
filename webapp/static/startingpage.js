@@ -56,6 +56,7 @@ function chooseRandomCountryCropYear(countriesCropsYears){
   var randomElements = {};
   for (var category in countriesCropsYears){
     var randomElement = '';
+    // generates 1 (all) or 2 (not all) 
     var notAllOrAll = Math.floor(Math.random() * 2);
     if (notAllOrAll == 1){ //selects the "All" option for the category
       var allIndex = 0;

@@ -1,6 +1,6 @@
-//Authors: Antonia Ritter and Kai Johnson
-//CS257
-//Feb-March 2021
+// Authors: Antonia Ritter and Kai Johnson
+// CS257
+// Feb-March 2021
 
 /**
  * This file describes supplementary methods called by the function
@@ -8,8 +8,11 @@
  */
 
 
-// takes results in format {crop: [year: production, year: production], crop...}
-// returns something like [[crop, production], [crop, production]] sorted by production (descending)
+ /**
+ * Returns a 2D array (since order matters) of pairs of crop and production 
+ * @param  {array} results           an array in format {crop: [year: production, year: production], crop...}
+ * @return {array}                   a 2D array with pairs crop and production sorted by production (descending)
+ */ 
 function sortGraphResults(results){
   // sorted results = [[crop, totalProduction], [crop, totalProduction], ...]
   var sortedResults = [];
@@ -28,8 +31,11 @@ function sortGraphResults(results){
   return sortedResults;
 }
 
-// takes sorted results in format [[crop, totalProduction], [crop, totalProduction], ...]
-// returns html for a table with headints Crop and production
+
+/**
+ * Creates a table of crop and production and inserts it into the html 
+ * @param  {array} sortedResults     a 2D array with pairs crop and production sorted by production (descending)
+ */ 
 function makeTotalTable(sortedResults){
   var html = '<h4>Total Production</h4>'
             + '<table><thead><tr><th scope="col">Crop</th>'
@@ -51,6 +57,11 @@ function makeTotalTable(sortedResults){
 }
 
 
+ /**
+ * Creates a line graph of crop production over the years and inserts it into the html 
+ * @param  {array} years           an array of years 
+ * @param  {array} cropLines       an array of dictionaries where each contains the information for one graph line
+ */ 
 function buildGraph(years, cropLines) {
   // insert graph canvas
   var element = document.getElementById('display-graph');
@@ -95,6 +106,11 @@ function buildGraph(years, cropLines) {
 }
 
 
+ /**
+ * Generates the data and details used to create a graph in buildGraph() 
+ * @param  {array} results           an array in format {crop: [year: production, year: production], crop...}
+ * @param  {array} sortedResults     a 2D array with pairs crop and production sorted by production (descending)
+ */
 // sorted results in the form [[crop, totalProduction], [crop, totalProduction], ...]
 // results in the form {crop: {year: production, year: production, …}, crop: …}
 function initializeGraph(sortedResults, results) {
@@ -120,7 +136,7 @@ function initializeGraph(sortedResults, results) {
     years.push(year);
   }
 
-  
+  // to handle null case, remains true if all data points are null 
   var allNull = true; 
 
   // "datasets" are the lines

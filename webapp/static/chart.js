@@ -1,12 +1,18 @@
-//Authors: Antonia Ritter and Kai Johnson
-//CS257
-//Feb-March 2021
+// Authors: Antonia Ritter and Kai Johnson
+// CS257
+// Feb-March 2021
 
 /**
  * This file describes supplementary methods called by the function
- * displayTable() in webapp.js
+ * displayChart() in webapp.js
  */
 
+
+ /**
+ * Organizes the data for a bar chart of crops and production in a single year 
+ * Or an error message if there is no data
+ * @param  {array} results           an array in format {crop: [year: production, year: production], crop...}
+ */ 
 function initializeChart(results){
 
     // number of crops to display 
@@ -40,6 +46,11 @@ function initializeChart(results){
 }
 
 
+ /**
+ * Creates a bar chart of crop production and inserts into the html 
+ * @param  {array} productionData           an array of production numbers in descending order
+ * @param  {array} cropLabels               an array of crop names corresponding to their productions in productionData
+ */ 
 function buildChart(productionData, cropLabels){
 
     // insert graph canvas
@@ -86,6 +97,10 @@ function buildChart(productionData, cropLabels){
 }
 
 
+ /**
+ * Creates a table of crops and their production for a year and inserts it into the html 
+ * @param  {array} results           a 2D array with pairs crop and production sorted by production (descending)
+ */ 
 function makeTable(results){
 
   var html = '<h4>Crop Production</h4><table>'
