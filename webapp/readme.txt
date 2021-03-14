@@ -8,8 +8,8 @@ The menu bars load information from the database and their input is read by the 
 A table appears for appropriate queries, sorted by yield.
 A single value appears for appropriate query, displaying different messages depending on whether the yield is greater than 0.
 A map appears for queries including “all countries.” 
-A graph appears for queries including “all years.” 
+A line graph appears for queries including “all years.” 
+A bar chart appears for queries including “all crops.”
+Default behavior when pages first loads.
 
-FEATURES NOT YET WORKING:
-Ability to select multiple countries/crops/years from dropdown.
-Default behavior when pages first loads. 
+ 
