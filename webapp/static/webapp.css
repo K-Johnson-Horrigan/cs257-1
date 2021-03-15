@@ -4,6 +4,15 @@ CS 257
 Feb-Mar 2021
 */
 
+body {
+  font-family: "Georgia";
+}
+
+main {
+  margin-top: 2rem;
+  margin-bottom: 1cm;
+}
+
 h3 {
   color: darkgreen;
   margin-bottom: 1cm;
@@ -12,15 +21,6 @@ h3 {
 h4, h5 {
   text-align: center;
   margin-top: 1cm;
-}
-
-body {
-  font-family: "Georgia";
-}
-
-main {
-  margin-top: 2rem;
-  margin-bottom: 1cm;
 }
 
 button {
@@ -41,9 +41,13 @@ th {
   text-align: left;
 }
 
-#about-text {
-  margin-left: 1cm;
-  margin-right: 1cm;
+i {
+  color: darkgreen;
+  font-style: normal;
+}
+
+#instructions {
+  text-align: center;
 }
 
 #dropdowns {
@@ -67,11 +71,6 @@ th {
   font-size: 0.6cm;
 }
 
-i {
-  color: darkgreen;
-  font-style: normal;
-}
-
 #display-text {
   color:darkgreen;
   font-size: 0.6cm;
@@ -83,29 +82,31 @@ i {
   margin-right: auto;
 }
 
-#crops-about {
-  text-align: left;
-  margin-left: 1cm;
-}
-
 #display-map-container {
   position: relative;
   float: center;
   height: 0;
   width: 90%;
   margin-left: 5%;
-  padding-bottom: 40%;
+  padding-bottom: 43%;
+  margin-top: -0.2cm;
   margin-bottom: -1cm;
   background: #e6ffff;
-}
-
-#instructions {
-  text-align: center;
 }
 
 .hoverpopup-map{
   background: #eeeeee;
   border: 1px black solid;
+}
+
+#about-text {
+  margin-left: 1cm;
+  margin-right: 1cm;
+}
+
+#crops-about {
+  text-align: left;
+  margin-left: 1cm;
 }
 
 a:link {
