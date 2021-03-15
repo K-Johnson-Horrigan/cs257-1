@@ -1,6 +1,6 @@
 # Authors: Antonia Ritter and Kai Johnson
-# CS257 
-# Feb-Mar 2021 
+# CS257
+# Feb-Mar 2021
 
 import flask
 import json
@@ -9,74 +9,87 @@ import psycopg2
 from config import database, user, password
 from collections import defaultdict
 
+
 api = flask.Blueprint('api', __name__)
 
 
 @api.route('/menus/')
 def get_menus():
+    '''Returns a JSON dictionary of with keys category name
+       and values lists of all elements for that category.
+    '''
     menus = {'countries' : [], 'crops' : [], 'years' : []}
-    for key in menus.keys():
-        query_text, search_clause = get_menus_query(key)
+    for category in menus.keys():
+        query_text, search_clause = get_menus_query(category)
         cursor = query_database(query_text, search_clause)
         menu_list = convert_cursor_to_list(cursor)
-        # add "All" option to the top of menus 
-        menu_list.insert(0, ('All ' + key)) 
-        menus[key] = menu_list
+        menu_list.insert(0, ('All ' + category)) # add "All" option to the top of menus
+        menus[category] = menu_list
     return json.dumps(menus)
+
+
+def convert_cursor_to_list(cursor):
+    '''Loops through every cursor row and adds it to the returned list.'''
+    list = []
+    for row in cursor:
+        list.append(row[0])
+    return list
 
 
 @api.route('/single_production/<country>/<crop>/<year>')
 def get_single_production(country, crop, year):
+    '''Returns a JSON of a single integer.'''
     query_text, search_clause = get_single_query(country, crop, year)
     cursor = query_database(query_text, search_clause)
-    # the database returns a single int 
     for row in cursor:
-        production_number = row
-    return json.dumps(production_number)
+        production = row
+    return json.dumps(production)
 
 
 @api.route('/graphed_production/<country>/<crop>')
 def get_graphed_production(country, crop):
+    '''Returns a JSON of a dictionary of dictionaries in the format:
+       {crop: {year: production}}
+    '''
     query_text, search_clause = get_graph_query(country, crop)
     cursor = query_database(query_text, search_clause)
-    # keep track of crops mentioned in cursor 
-    crops_set = set()
-    cursor_chart = []
-    for row in cursor: # a row is crop, year, production
-        # put it into a chart to loop through later 
-        cursor_chart.append(row)
-        crops_set.add(row[0])
-    productions_by_year_dict = {} # {crop: {year: production, year: production, …}, crop: …}
-    # create the subdict for each crop individually
-    for crop in crops_set:
-        one_crop_dict = {}
-        for row in cursor_chart:
-            if row[0] == crop:
-                one_crop_dict[row[1]] = row[2]
-        productions_by_year_dict[crop] = one_crop_dict
-    return json.dumps(productions_by_year_dict)
+    production_by_crop_year_dict = {}
+    for row in cursor:
+        crop = row[0]
+        year = row[1]
+        production = row[2]
+        if crop in production_by_crop_year_dict:
+            production_by_crop_year_dict[crop][year] = production
+        else:
+            production_by_crop_year_dict[crop] = {year : production}
+    return json.dumps(production_by_crop_year_dict)
 
 
 @api.route('/charted_production/<country>/<year>')
 def get_charted_production(country, year):
+    '''Returns a JSON of a 2D list in the format:
+       [[crop, production], [crop, production], ...]
+    '''
     query_text, search_clause = get_chart_query(country, year)
     cursor = query_database(query_text, search_clause)
-    productions_by_crop_list = [] # [[crop, production], [crop, production], ...]
+    productions_by_crop_list = []
     for row in cursor:
         crop = row[0]
         production = row[1]
-        if production != None: 
+        if production != None:
             productions_by_crop_list.append([crop, production])
     return json.dumps(productions_by_crop_list)
 
 
 @api.route('/mapped_production/<crop>/<year>')
 def get_mapped_production(crop, year):
+    '''Returns a JSON of a dictionary of dictionaries in the format:
+       {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
+    '''
     query_text, search_clause = get_map_query(crop, year)
     cursor = query_database(query_text, search_clause)
-    # format: {USA: {production: 189900, country_name: United States of America}, AUS: {production: 5, country_name: Australia], …}
     productions_by_country_dict = {}
-    for row in cursor: # a row is country, abbreviation, production
+    for row in cursor:
         country_name = row[0]
         abbreviation = row[1]
         production = row[2]
@@ -87,16 +100,8 @@ def get_mapped_production(crop, year):
 
 @api.route('/help')
 def get_help():
+    '''Returns the help.html page'''
     return flask.render_template('help.html')
-
-
-def convert_cursor_to_list(cursor):
-# a helper for get_menus 
-    list = []
-    for row in cursor:
-        list.append(row[0])
-    return list
-
 
 def get_menus_query(key):
     '''Returns query text and search clause tuple (there isn't one) for get_menus'''
