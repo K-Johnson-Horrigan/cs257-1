@@ -16,7 +16,7 @@
 
     REQUEST: /menus/
     RESPONSE: 
-        A JSON list containing a dictionary, with keys as the dropdown names and values a sorted list of dropdown values.
+        A JSON of a dictionary, with keys as the dropdown names and values a sorted list of dropdown values.
     EXAMPLE: 
         \menus
             {countries: [Algeria, Bulgaria, …], crops: [maize, soybeans…], years: [1961, 1962, …]}
@@ -31,19 +31,18 @@
         These have two keys, yield and country name, with the corresponding values.
     EXAMPLE: 
         /mapped_production/Apples/1992
-            {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}  
-
+            {"CHN": {"production": 6555836, "country_name": "China, mainland"}, ...}
 
     REQUEST: /charted_production/{country}/{year}
     GET parameters:
         country (Necessary) -- (TEXT) a country name or “All countries” 
         year (Necessary) -- (TEXT) a year (1960-2019) or “All years”    
     RESPONSE: 
-        A JSON dictionary with crops as keys and yields as values.
+        A JSON 2D array with pairs of crop and production.
     EXAMPLE: 
         /api/charted_production/Afghanistan/2016
-            {"Sugar cane": 130263, "Sugar Crops Primary": 123427, "Roots and Tubers, Total": 119868, "Potatoes": 119868, "Watermelons": 115473}
-
+            [["Cereals, Total", 5531472], ["Wheat", 4555110], ["Fruit Primary", 2597548], ...]
+            
 
     REQUEST: /graphed_production/{country}/{crop}
     GET parameters:
@@ -53,7 +52,7 @@
         A JSON dictionary with crops as keys and subdictionaries as values. These each have years as keys and yields as values. 
     EXAMPLE(S): 
         /api/graphed_production/Asia/Yams
-            {"Yams": {"1969": 112720, "1961": 87255, "1962": 79543,...}}
+            {"Yams": {"1962": 91236, "1961": 89000, "1963": 98045,...}}
             
     
     REQUEST: /single_production/{country}/{crop}/{year}
@@ -64,10 +63,9 @@
     RESPONSE: 
         An JSON of an integer, representing the yield of that crop in that country that year. 
     EXAMPLE(S): 
-        /single_production/Afghanistan/Agave%20fibres%20nes/2016
-            [0]
         /api/single_production/Cambodia/Sugar%20cane/2011
-            [212397]
+            [468738]
+
 
     </pre>
 </body>
