@@ -1,6 +1,6 @@
 /*
 Authors: Antonia Ritter and Kai Johnson
-CS 257 
+CS 257
 Feb-Mar 2021
 */
 
@@ -42,12 +42,13 @@ th {
 }
 
 #about-text {
-  margin-left: 1cm; 
-  margin-right: 1cm; 
+  margin-left: 1cm;
+  margin-right: 1cm;
 }
 
 #dropdowns {
-  margin-bottom: 0.9cm;
+  margin-bottom: 0.2cm;
+  font-size: 0.5cm;
 }
 
 #countries-dropdown {
@@ -59,19 +60,15 @@ th {
 }
 
 #years-dropdown {
-  width: 3cm;
-}
-
-#startup {
-  margin-bottom: 1cm;
+  width: 4cm;
 }
 
 #display-title {
-  font-size: 0.8cm; 
+  font-size: 0.6cm;
 }
 
 i {
-  color: darkgreen; 
+  color: darkgreen;
   font-style: normal;
 }
 
@@ -97,7 +94,7 @@ i {
   height: 0;
   width: 100%;
   padding-bottom: 50%;
-  margin-bottom: -1cm; 
+  margin-bottom: -1cm;
   background: #e6ffff;
 }
 
