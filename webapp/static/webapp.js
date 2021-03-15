@@ -12,11 +12,11 @@
 
 window.onload = initialize;
 
+
 /*A randomized first display is shown and the user can select and modify the display with a button press*/
 function initialize() {
   buildStartingPage();
-  var button = document.getElementById('display-button');
-  button.onclick = onDisplayButtonPress;//onDisplayButtonPress;
+  document.getElementById('display-button').addEventListener('click', onDisplayButtonPress);
 }
 
 
@@ -40,6 +40,7 @@ function buildStartingPage(){
     var crop = randomCountryCropYear["crops"];
     var year = randomCountryCropYear["years"];
     display(country, crop, year);
+    
     startupMessage(); 
   })
   .catch(function(error) {
