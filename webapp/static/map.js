@@ -2,11 +2,29 @@
 // CS257
 // Feb-March 2021
 
+
 /**
  * This file describes supplementary methods called by the function
  * displayMap() in webapp.js
  */
 
+
+ /**
+  * Returns the greates production value of the returned countries
+  * @param  {dictionary} results the dictionary of (sorted by production) results
+  * @return {int}                the production of the first element in the dictionry, the highest production
+  */
+ function getHighestProduction(results){
+   var highestProduction = 0;
+   for (var key in results){
+     if (highestProduction == 0){
+       highestProduction = results[key]['production'];
+       return highestProduction;
+     }
+   }
+ }
+
+ 
 /**
  * Returns a 2D array (since order matters) of pairs of
  * production step value and the corresponding color hex
@@ -23,20 +41,6 @@ function createProductionColorKey(highestProduction, colors){
   return productionColorKey;
 }
 
-/**
- * Returns the greates production value of the returned countries
- * @param  {dictionary} results the dictionary of (sorted by production) results
- * @return {int}                the production of the first element in the dictionry, the highest production
- */
-function getHighestProduction(results){
-  var highestProduction = 0;
-  for (var key in results){
-    if (highestProduction == 0){
-      highestProduction = results[key]['production'];
-      return highestProduction;
-    }
-  }
-}
 
 /**
  * Creates and returns a dictionary that is essentially just 'results'
@@ -66,6 +70,7 @@ function assignColorsToCountries(results, productionColorKey){
   return colorizedResults;
 }
 
+
 /**
  * Creates and displays a world map according to the user's parameters
  * @param  {dictionary} resultsWithColorFills each country abbreviation and its color fill, production, and name
@@ -84,6 +89,7 @@ function initializeMap(resultsWithColorFills) {
                                 }
                           });
 }
+
 
 /**
  * Returns the description of a popup containing
@@ -105,6 +111,7 @@ function hoverPopupTemplate(geography, data){
 
   return template;
 }
+
 
 /**
  * Displays the map legend
@@ -128,6 +135,7 @@ function displayLegend(productionColorKey){
   }
 }
 
+
 /**
  * Returns a sorted array of the map data
  * @param  {dictionary} results data in format {'USA': {'production': 189900, 'country_name': United States of America}
@@ -146,6 +154,7 @@ function sortMapResults(results){
   });
   return sortedResults;
 }
+
 
 /**
  * Displays a table of each country and its production
