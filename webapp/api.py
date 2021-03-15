@@ -41,25 +41,25 @@ def get_graphed_production(country, crop):
     cursor = query_database(query_text, search_clause)
     # keep track of crops mentioned in cursor 
     crops_set = set()
-    cursor_table = []
+    cursor_chart = []
     for row in cursor: # a row is crop, year, production
-        # put it into a table to loop through later 
-        cursor_table.append(row)
+        # put it into a chart to loop through later 
+        cursor_chart.append(row)
         crops_set.add(row[0])
     productions_by_year_dict = {} # {crop: {year: production, year: production, …}, crop: …}
     # create the subdict for each crop individually
     for crop in crops_set:
         one_crop_dict = {}
-        for row in cursor_table:
+        for row in cursor_chart:
             if row[0] == crop:
                 one_crop_dict[row[1]] = row[2]
         productions_by_year_dict[crop] = one_crop_dict
     return json.dumps(productions_by_year_dict)
 
 
-@api.route('/tabled_production/<country>/<year>')
-def get_tabled_production(country, year):
-    query_text, search_clause = get_table_query(country, year)
+@api.route('/charted_production/<country>/<year>')
+def get_charted_production(country, year):
+    query_text, search_clause = get_chart_query(country, year)
     cursor = query_database(query_text, search_clause)
     productions_by_crop_list = [] # [[crop, production], [crop, production], ...]
     for row in cursor:
@@ -159,8 +159,8 @@ def get_single_query(country, crop, year):
     return query_text, search_clause
 
 
-def get_table_query(country, year):
-    '''Returns query text and search clause tuple for tabled_production'''
+def get_chart_query(country, year):
+    '''Returns query text and search clause tuple for charted_production'''
     query_text = '''SELECT crops.crop, country_crop.production \
                     FROM countries, crops, country_crop \
                     WHERE crops.id = country_crop.crop_id \

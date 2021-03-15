@@ -7,8 +7,8 @@ RESPONSE: A JSON list containing a dictionary that will be used to populate our 
 REQUEST: /mapped_production/{crop}/{year}
 RESPONSE: A JSON dictionary configured for the map display options like so: {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}. The "crop" and "year" options could each also be "all," in which case yield is the crop yield summed over all crops and/or all years. 
 
-REQUEST: /tabled_production/{country}/{year}
-RESPONSE: A JSON dictionary configured to display the yields of individual crops in a table: {crop: yield, crop: yield, ...}. 
+REQUEST: /charted_production/{country}/{year}
+RESPONSE: A JSON dictionary configured to display the yields of individual crops in a bar chart: {crop: yield, crop: yield, ...}. 
 
 REQUEST: /graphed_production/{country}/{crop}
 RESPONSE: A JSON dictionary configured to display the country's crop yields over time as a line graph: {crop: {year: yield, year: yield, …}, crop: …}. The crop option could be "all," in which case the dicitonary would have multiple keys, and if it is specific, the dictionary will just have the one key. 

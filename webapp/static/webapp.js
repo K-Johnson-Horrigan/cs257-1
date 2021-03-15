@@ -93,7 +93,7 @@ function getURL(country, crop, year){
     url += '/graphed_production/' + country + '/' + crop;
   }
   else if (crop === 'All crops') {
-    url += '/tabled_production/' + country + '/' + year;
+    url += '/charted_production/' + country + '/' + year;
   }
   else {
     url += '/single_production/' + country + '/' + crop + '/' + year;
@@ -221,7 +221,6 @@ function displayGraph(results){
 
 /**
  * displays a bar chart and table of crops and their productions, sorted by production (descending)
- * Note: this option previously only had a table, so the API reference is still 'tabled_production' 
  * @param  {list} results 2D list of crop-production pairs, sorted by production (descending)
                           eg [['Maize', 201000], ...]
  */

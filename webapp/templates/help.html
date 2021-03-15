@@ -34,14 +34,14 @@
             {USA: {yield: 189900, country_name: United States of America}, AUS: {yield: 5, country_name: Australia], …}  
 
 
-    REQUEST: /tabled_production/{country}/{year}
+    REQUEST: /charted_production/{country}/{year}
     GET parameters:
         country (Necessary) -- (TEXT) a country name or “All countries” 
         year (Necessary) -- (TEXT) a year (1960-2019) or “All years”    
     RESPONSE: 
         A JSON dictionary with crops as keys and yields as values.
     EXAMPLE: 
-        /api/tabled_production/Afghanistan/2016
+        /api/charted_production/Afghanistan/2016
             {"Sugar cane": 130263, "Sugar Crops Primary": 123427, "Roots and Tubers, Total": 119868, "Potatoes": 119868, "Watermelons": 115473}
 
 
