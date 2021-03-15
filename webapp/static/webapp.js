@@ -40,8 +40,8 @@ function buildStartingPage(){
     var crop = randomCountryCropYear["crops"];
     var year = randomCountryCropYear["years"];
     display(country, crop, year);
-    
-    startupMessage(); 
+
+    startupMessage();
   })
   .catch(function(error) {
     console.log(error);
@@ -78,6 +78,33 @@ function wipeScreenClean(){
 
 
 /**
+ * gets the appropriate url for the passed parameters,
+ * retrieves the results from the API,
+ * then passes them to the appropriate display method
+ * @param  {string} country the 'countries' dropdown selection
+ * @param  {string} crop    the 'crops' dropdown selection
+ * @param  {string} year    the 'years' dropdown selection
+ */
+function display(country, crop, year){
+  var url = getURL(country, crop, year);
+
+  fetch(url, {method: 'get'})
+  .then((response) => response.json())
+  .then(function(results) {
+    if (country === 'All countries') { displayMap(results); }
+    else if (year === 'All years') { displayGraph(results); }
+    else if (crop === 'All crops') { displayChart(results); }
+    else { displaySingle(results); }
+  })
+  .catch(function(error) {
+      console.log(error);
+  });
+
+  makeTitle(country, crop, year);
+}
+
+
+/**
  * returns the url for the desired data
  * @param  {string} country     the 'countries' dropdown selection
  * @param  {string} crop        the 'crops' dropdown selection
@@ -110,66 +137,6 @@ function getURL(country, crop, year){
 function getAPIBaseURL() {
   var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
   return baseURL;
-}
-
-
-/**
- * gets the appropriate url for the passed parameters,
- * retrieves the results from the API,
- * then passes them to the appropriate display method
- * @param  {string} country the 'countries' dropdown selection
- * @param  {string} crop    the 'crops' dropdown selection
- * @param  {string} year    the 'years' dropdown selection
- */
-function display(country, crop, year){
-  var url = getURL(country, crop, year); 
-
-  fetch(url, {method: 'get'})
-  .then((response) => response.json())
-  .then(function(results) {
-    if (country === 'All countries') { displayMap(results); }
-    else if (year === 'All years') { displayGraph(results); }
-    else if (crop === 'All crops') { displayChart(results); }
-    else { displaySingle(results); }
-  })
-  .catch(function(error) {
-      console.log(error);
-  });
-
-  makeTitle(country, crop, year);
-}
-
-
-/** Inserts a page title depending on dropdown selections 
- * @param  {string} country the 'countries' dropdown selection
- * @param  {string} crop    the 'crops' dropdown selection
- * @param  {string} year    the 'years' dropdown selection
-*/
-function makeTitle(country, crop, year){
-
-  var cropName = '';
-  if (crop != 'All crops'){
-    cropName = ' of <i>' + crop + '</i>'; 
-  }
-
-  var yearName = '';
-  if (year == 'All years'){
-    yearName = '<i> 1961-2019 </i>';
-  } else {
-    yearName = '<i>' + year + '</i>'; 
-  }
-
-  var html = '';
-  if (country == 'All countries'){
-    html = '<p id="display-title">' + yearName + ' World Production' + cropName + '</p>';
-  } else {
-    html = '<p id="display-title">' + yearName + ' Production in <i>' + country + '</i>' + cropName + '</p>';
-  }
-
-  var element = document.getElementById('title');
-    if (element) {
-        element.innerHTML = html; 
-    }
 }
 
 
@@ -226,7 +193,7 @@ function displayGraph(results){
                           eg [['Maize', 201000], ...]
  */
 function displayChart(results){
-  initializeChart(results); // this also makes the table if results aren't null 
+  initializeChart(results); // this also makes the table if results aren't null
 }
 
 
@@ -244,8 +211,39 @@ function displaySingle(results){
     }
   }
   else{
-    noResultsMessage(); 
+    noResultsMessage();
   }
 }
 
 
+/** Inserts a page title depending on dropdown selections
+ * @param  {string} country the 'countries' dropdown selection
+ * @param  {string} crop    the 'crops' dropdown selection
+ * @param  {string} year    the 'years' dropdown selection
+*/
+function makeTitle(country, crop, year){
+
+  var cropName = '';
+  if (crop != 'All crops'){
+    cropName = ' of <i>' + crop + '</i>';
+  }
+
+  var yearName = '';
+  if (year == 'All years'){
+    yearName = '<i> 1961-2019 </i>';
+  } else {
+    yearName = '<i>' + year + '</i>';
+  }
+
+  var html = '';
+  if (country == 'All countries'){
+    html = '<p id="display-title">' + yearName + ' World Production' + cropName + '</p>';
+  } else {
+    html = '<p id="display-title">' + yearName + ' Production in <i>' + country + '</i>' + cropName + '</p>';
+  }
+
+  var element = document.getElementById('title');
+    if (element) {
+      element.innerHTML = html;
+    }
+}
