@@ -22,18 +22,12 @@ def get_menus():
     for category in menus.keys():
         query_text, search_clause = get_menus_query(category)
         cursor = query_database(query_text, search_clause)
-        menu_list = convert_cursor_to_list(cursor)
+        menu_list = []
+        for row in cursor:
+            menu_list.append(row[0])
         menu_list.insert(0, ('All ' + category)) # add "All" option to the top of menus
         menus[category] = menu_list
     return json.dumps(menus)
-
-
-def convert_cursor_to_list(cursor):
-    '''Loops through every cursor row and adds it to the returned list.'''
-    list = []
-    for row in cursor:
-        list.append(row[0])
-    return list
 
 
 @api.route('/single_production/<country>/<crop>/<year>')
