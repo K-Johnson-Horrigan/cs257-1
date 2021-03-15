@@ -23,32 +23,7 @@ function buildMenus(countriesCropsYears){
     html += '</select>';
     var categoryColumn = document.getElementById(category + '-col');
     if (categoryColumn) {
-        categoryColumn.innerHTML = html;
-    }
-  }
-}
-
-
-/**Inserts startup message into html */
-function startupMessage(){
-  var html = '<p id="display-text">Here\'s a randomized selection to get you started. Now use the dropdown menus to select your own!</p> <p> Visit the <a href="about.html">about</a> page for details about display features.</p>'
-  var element = document.getElementById('startup');
-    if (element) {
-      element.innerHTML = html;
-    }
-}
-
-
-/**
- * Sets the dropdown selections to the randomized dropdown values
- * @param {dictionary} randomCountryCropYear a dictionary with keys "countries", "crops", and "years" with
- *                                           values a randomly selected element from each catergory
- */
-function menuSelectRandomCountryCropYear(randomCountryCropYear){
-  for (var category in randomCountryCropYear){
-    var dropdown = document.getElementById(category + '-dropdown');
-    if (dropdown){
-      dropdown.value = randomCountryCropYear[category];
+      categoryColumn.innerHTML = html;
     }
   }
 }
@@ -67,7 +42,7 @@ function chooseRandomCountryCropYear(countriesCropsYears){
   var randomElements = {};
   for (var category in countriesCropsYears){
     var randomElement = '';
-    // generates 1 (all) or 2 (not all) 
+    // generates 1 (all) or 0 (not all)
     var notAllOrAll = Math.floor(Math.random() * 2);
     if (notAllOrAll == 1){ //selects the "All" option for the category
       var allIndex = 0;
@@ -84,7 +59,32 @@ function chooseRandomCountryCropYear(countriesCropsYears){
 
 
 /**
- * Displays a message that there was no production for the selected combination. 
+ * Sets the dropdown selections to the randomized dropdown values
+ * @param {dictionary} randomCountryCropYear a dictionary with keys "countries", "crops", and "years" with
+ *                                           values a randomly selected element from each catergory
+ */
+function menuSelectRandomCountryCropYear(randomCountryCropYear){
+  for (var category in randomCountryCropYear){
+    var dropdown = document.getElementById(category + '-dropdown');
+    if (dropdown){
+      dropdown.value = randomCountryCropYear[category];
+    }
+  }
+}
+
+
+/**Inserts startup message into html */
+function startupMessage(){
+  var html = '<p id="display-text">Here\'s a randomized selection to get you started. Now use the dropdown menus to select your own!</p> <p> Visit the <a href="about.html">about</a> page for details about display features.</p>'
+  var element = document.getElementById('startup');
+  if (element) {
+    element.innerHTML = html;
+  }
+}
+
+
+/**
+ * Displays a message that there was no production for the selected combination.
  */
 function noResultsMessage(){
   var element = document.getElementById('display-single');
