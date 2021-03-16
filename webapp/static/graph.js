@@ -156,9 +156,7 @@ function makeTotalTable(sortedResults){
   for(var row in sortedResults){
     var crop  = sortedResults[row][0];
     var totalProduction = sortedResults[row][1];
-    //if(totalProduction>0){
     html += '<tr><th scope="row">' + crop + '</th><td>' + totalProduction.toLocaleString() + '</td>';
-    //}
   }
 
   html += '</tbody></table>';
